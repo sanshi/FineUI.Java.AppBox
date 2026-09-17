@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>部门用户管理</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:region-panel id="RegionPanel1" show-border="false" is-view-port="true" margin="20">
+                <f:regions>
+                    <f:region id="Region1" show-border="true" show-border-shadow="true" show-header="false" width="260" region-position="Left"
+                        region-split="true" region-split-icon="false" region-split-width="10" layout="Fit">
+                        <f:items>
+                            <f:grid id="Grid1" show-border="true" show-border-shadow="true" show-header="false" enable-check-box-select="false"
+                                enable-multi-select="false" row-type-from="depts" data-id-field="id" data-text-field="name" enable-tree="true"
+                                tree-column="name" data-parent-id-field="parentId" expand-all-tree-nodes="true" on-row-click="Grid1_RowClick">
+                                <f:columns>
+                                    <f:row-number-field enable-tree-number="true"></f:row-number-field>
+                                    <f:render-field for="name" column-id="name" expand-unused-space="true"></f:render-field>
+                                </f:columns>
+                            </f:grid>
+                        </f:items>
+                    </f:region>
+                    <f:region id="Region2" show-border="false" show-header="false" region-position="Center" layout="VBox" box-config-space="10">
+                        <f:items>
+                            <f:form show-border="true" show-border-shadow="true" body-padding="10" remove-last-fields-margin="true" show-header="false"
+                                label-align="Right">
+                                <f:rows>
+                                    <f:form-row>
+                                        <f:items>
+                                            <f:twin-trigger-box id="ttbSearchMessage" show-label="false" empty-text="在用户名称中搜索" trigger1-icon="Clear"
+                                                trigger2-icon="Search" show-trigger1="false" on-trigger1-click="ttbSearchMessage_Trigger1Click"
+                                                on-trigger2-click="ttbSearchMessage_Trigger2Click"></f:twin-trigger-box>
+                                            <f:label></f:label>
+                                        </f:items>
+                                    </f:form-row>
+                                </f:rows>
+                            </f:form>
+                            <f:grid id="Grid2" box-flex="1" show-border="true" show-border-shadow="true" show-header="false" enable-check-box-select="true"
+                                row-type-from="users" data-id-field="id" data-text-field="name" data-key-names="id" allow-sorting="true" sort-field="name"
+                                sort-direction="DESC" on-sort="Grid2_Sort" allow-paging="true" is-database-paging="true"
+                                on-page-index-changed="Grid2_PageIndexChanged" on-row-command="Grid2_RowCommand">
+                                <f:toolbars>
+                                    <f:toolbar id="Toolbar1">
+                                        <f:items>
+                                            <f:button id="btnDeleteSelected" icon="Delete" text="从当前部门移除选中的用户" click-handler="onDeleteSelectedClick"></f:button>
+                                            <f:toolbar-fill></f:toolbar-fill>
+                                            <f:button id="btnNew" icon="Add" text="添加用户到当前部门" click-handler="onNewClick"></f:button>
+                                        </f:items>
+                                    </f:toolbar>
+                                </f:toolbars>
+                                <f:page-items>
+                                    <f:toolbar-text text="每页记录数："></f:toolbar-text>
+                                    <f:drop-down-list id="ddlGridPageSize" width="80" on-selected-index-changed="ddlGridPageSize_SelectedIndexChanged">
+                                        <f:list-item text="10" value="10"></f:list-item>
+                                        <f:list-item text="20" value="20"></f:list-item>
+                                        <f:list-item text="50" value="50"></f:list-item>
+                                        <f:list-item text="100" value="100"></f:list-item>
+                                    </f:drop-down-list>
+                                </f:page-items>
+                                <f:columns>
+                                    <f:row-number-field enable-paging-number="true"></f:row-number-field>
+                                    <f:render-field for="name" quick-sort-field="true" width="100"></f:render-field>
+                                    <f:render-field for="chineseName" quick-sort-field="true" width="100"></f:render-field>
+                                    <f:render-check-field for="enabled" quick-sort-field="true" render-as-static-field="true" width="80"></f:render-check-field>
+                                    <f:render-field for="gender" quick-sort-field="true" width="80"></f:render-field>
+                                    <f:render-field for="email" quick-sort-field="true" width="180"></f:render-field>
+                                    <f:render-field for="remark" expand-unused-space="true"></f:render-field>
+                                    <f:render-field enable-column-hide="false" enable-header-menu="false" width="100">
+                                        <f:commands>
+                                            <f:command command-name="View" icon="Information" tool-tip="查看用户信息" window-id="Window1" window-title="查看用户信息"
+                                                window-iframe-url-format-string="/admin/user-view?id={0}" window-iframe-url-fields="id"></f:command>
+                                            <f:command command-name="Delete" icon="Delete" tool-tip="删除" css-class="mybtn3" confirm-text="确定删除此记录？"
+                                                confirm-target="Top"></f:command>
+                                        </f:commands>
+                                    </f:render-field>
+                                </f:columns>
+                            </f:grid>
+                        </f:items>
+                    </f:region>
+                </f:regions>
+            </f:region-panel>
+
+            <f:window id="Window1" is-modal="true" hidden="true" target="Top" enable-resize="true" enable-maximize="true" enable-iframe="true" width="900"
+                height="650" close-action="HidePostBack" on-close="Window1_Close"></f:window>
+        </th:block>
+
+        <th:block layout:fragment="script">
+            <script>
+                function onNewClick(event) {
+                    var selectedRowData = F.ui.Grid1.getSelectedRow(true);
+                    if (!selectedRowData) {
+                        F.alert('请先选择一个部门！');
+                        return;
+                    }
+                    var url = F.resolveUrl('/admin/dept-user-new?deptID=') + selectedRowData.id;
+                    F.ui.Window1.show(url, '添加用户到当前部门（' + selectedRowData.text + '）');
+                }
+
+                function onDeleteSelectedClick(event) {
+                    var grid2 = F.ui.Grid2;
+                    if (!grid2.hasSelection()) {
+                        F.alert('请至少选择一项！');
+                        return;
+                    }
+                    var selectedRows = grid2.getSelectedRows();
+                    F.confirm({
+                        message: F.rawHtml('你确定要删除选中的&nbsp;<b>' + selectedRows.length + '</b>&nbsp;行数据吗？'),
+                        target: '_top',
+                        ok: function() {
+                            F.customEvent('Grid2_DeleteRows', {
+                                rowIDs: selectedRows
+                            });
+                        }
+                    });
+                }
+
+            </script>
+        </th:block>
+    </body>
+
+</html>

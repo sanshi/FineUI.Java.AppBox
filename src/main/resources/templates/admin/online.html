@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>在线统计</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:panel id="Panel1" show-border="false" show-header="false" layout="VBox" box-config-space="10" is-view-port="true" margin="20">
+                <f:items>
+                    <f:form show-border="true" show-border-shadow="true" body-padding="10" remove-last-fields-margin="true" show-header="false">
+                        <f:rows>
+                            <f:form-row>
+                                <f:items>
+                                    <f:twin-trigger-box id="ttbSearchMessage" show-label="false" empty-text="在用户名中搜索" trigger1-icon="Clear"
+                                        trigger2-icon="Search" show-trigger1="false" on-trigger1-click="ttbSearchMessage_Trigger1Click"
+                                        on-trigger2-click="ttbSearchMessage_Trigger2Click"></f:twin-trigger-box>
+                                    <f:label></f:label>
+                                </f:items>
+                            </f:form-row>
+                        </f:rows>
+                    </f:form>
+                    <f:grid id="Grid1" box-flex="1" show-border="true" show-border-shadow="true" show-header="false" enable-check-box-select="false"
+                        row-type-from="onlines" data-id-field="userId" data-text-field="userName" data-key-names="userId" allow-sorting="true"
+                        sort-field="updateTime" sort-direction="DESC" on-sort="Grid1_Sort" allow-paging="true" is-database-paging="true"
+                        on-page-index-changed="Grid1_PageIndexChanged">
+                        <f:columns>
+                            <f:row-number-field enable-paging-number="true"></f:row-number-field>
+                            <f:render-field for="updateTime" quick-sort-field="true" width="150"></f:render-field>
+                            <f:render-field for="loginTime" quick-sort-field="true" width="150"></f:render-field>
+                            <f:render-field for="userName" quick-sort-field="true" width="100"></f:render-field>
+                            <f:render-field for="userChineseName" quick-sort-field="true" width="100"></f:render-field>
+                            <f:render-field for="ipAddress" expand-unused-space="true"></f:render-field>
+                            <f:render-field enable-column-hide="false" enable-header-menu="false" width="100">
+                                <f:commands>
+                                    <f:command command-name="Edit" icon="Pencil" tool-tip="查看" window-id="Window1" window-title="查看用户信息"
+                                        window-iframe-url-format-string="/admin/user-view?id={0}" window-iframe-url-fields="userId"></f:command>
+                                </f:commands>
+                            </f:render-field>
+                        </f:columns>
+                        <f:page-items>
+                            <f:toolbar-text text="每页记录数："></f:toolbar-text>
+                            <f:drop-down-list id="ddlGridPageSize" width="80" on-selected-index-changed="ddlGridPageSize_SelectedIndexChanged">
+                                <f:list-item text="10" value="10"></f:list-item>
+                                <f:list-item text="20" value="20"></f:list-item>
+                                <f:list-item text="50" value="50"></f:list-item>
+                                <f:list-item text="100" value="100"></f:list-item>
+                            </f:drop-down-list>
+                        </f:page-items>
+                    </f:grid>
+                </f:items>
+            </f:panel>
+
+            <f:window id="Window1" is-modal="true" hidden="true" target="Top" enable-resize="true" enable-maximize="true" enable-iframe="true" width="900"
+                height="650" close-action="HidePostBack" on-close="Window1_Close"></f:window>
+        </th:block>
+    </body>
+
+</html>

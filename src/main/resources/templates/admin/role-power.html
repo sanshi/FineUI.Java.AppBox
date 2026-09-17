@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>角色权限管理</title>
+        <style>
+            ul.powers {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            ul.powers li {
+                display: inline-block;
+                min-width: 150px;
+                margin-right: 10px;
+            }
+
+            .f-grid-row .f-grid-cell-text {
+                white-space: normal;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:region-panel id="RegionPanel1" show-border="false" is-view-port="true" margin="20">
+                <f:regions>
+                    <f:region id="Region1" show-border="false" show-header="false" width="260" region-position="Left" region-split="true"
+                        region-split-icon="false" region-split-width="10" layout="Fit">
+                        <f:items>
+                            <f:grid id="Grid1" show-border="true" show-border-shadow="true" show-header="false" enable-check-box-select="false"
+                                enable-multi-select="false" row-type-from="roles" data-id-field="id" data-text-field="name" allow-sorting="true"
+                                sort-field="name" sort-direction="DESC" on-sort="Grid1_Sort" on-row-click="Grid1_RowClick">
+                                <f:columns>
+                                    <f:row-number-field></f:row-number-field>
+                                    <f:render-field for="name" quick-sort-field="true" expand-unused-space="true"></f:render-field>
+                                </f:columns>
+                            </f:grid>
+                        </f:items>
+                    </f:region>
+                    <f:region id="Region2" show-border="false" show-header="false" region-position="Center" layout="Fit">
+                        <f:items>
+                            <f:grid id="Grid2" box-flex="1" show-border="true" show-border-shadow="true" show-header="false" allow-sorting="true"
+                                row-type-from="groupPowers" data-id-field="groupName" data-text-field="groupName" sort-field="groupName" sort-direction="DESC"
+                                on-sort="Grid2_Sort">
+                                <f:listeners>
+                                    <f:listener event="beforerowcontextmenu" handler="onGrid2Contextmenu"></f:listener>
+                                </f:listeners>
+                                <f:toolbars>
+                                    <f:toolbar id="Toolbar1">
+                                        <f:items>
+                                            <f:button id="btnSelectAll" text="全选" click-handler="onSelectAllClick"></f:button>
+                                            <f:button id="btnUnselectAll" text="反选" click-handler="onUnselectAllClick"></f:button>
+                                            <f:toolbar-separator></f:toolbar-separator>
+                                            <f:button id="btnGroupUpdate" button-color="Primary" icon="GroupEdit" text="更新当前角色权限" click-handler="savePowers">
+                                            </f:button>
+                                        </f:items>
+                                    </f:toolbar>
+                                </f:toolbars>
+                                <f:columns>
+                                    <f:row-number-field></f:row-number-field>
+                                    <f:render-field for="groupName" quick-sort-field="true" width="120"></f:render-field>
+                                    <f:render-field for="powers" expand-unused-space="true" renderer-function="renderPowers"></f:render-field>
+                                </f:columns>
+                            </f:grid>
+                        </f:items>
+                    </f:region>
+                </f:regions>
+            </f:region-panel>
+
+            <f:menu id="Menu2">
+                <f:menu-button id="menuSelectRows" text="全选行" click-handler="onSelectAllClick"></f:menu-button>
+                <f:menu-button id="menuUnSelectRows" text="取消行" click-handler="onUnselectAllClick"></f:menu-button>
+            </f:menu>
+        </th:block>
+
+        <th:block layout:fragment="script">
+            <script>
+                var checkboxSelector = '.powers input[type=checkbox]',
+                    selectedRowSelector = '.f-grid-row-selected',
+                    selectedRowCheckboxSelector = selectedRowSelector + ' ' + checkboxSelector;
+
+                function onGrid2Contextmenu(event, rowId, rowIndex) {
+                    F.ui.Menu2.show();
+                    return false;
+                }
+
+                // 权限列：把一组权限渲染成复选框列表（值为权限主键，鼠标悬停显示权限名）
+                function renderPowers(value, params) {
+                    var html = ['<ul class="powers">'];
+                    $.each(value, function(index, item) {
+                        var itemId = 'power_checkbox_' + parseInt(item.id, 10);
+                        // 权限名/标题是可编辑数据，拼进 HTML 前编码
+                        var itemHtml = F.formatString('<li><span data-qtip="{0}">', F.htmlEncode(item.name));
+                        itemHtml += F.formatString('<input id="{0}" type="checkbox" value="{1}">', itemId, parseInt(item.id, 10));
+                        itemHtml += F.formatString('<label for="{0}">{1}</label>', itemId, F.htmlEncode(item.title));
+                        itemHtml += '</span></li>';
+                        html.push(itemHtml);
+                    });
+                    html.push('</ul>');
+                    return html.join('');
+                }
+
+                function getAllCheckboxEls() {
+                    return F.ui.Grid2.el.find(checkboxSelector);
+                }
+
+                // 有选中行则只作用于选中行内的复选框，否则作用于全部
+                function selectPowerCheckboxs(checked) {
+                    var selectedRows = F.ui.Grid2.el.find(selectedRowSelector);
+                    if (selectedRows.length) {
+                        F.ui.Grid2.el.find(selectedRowCheckboxSelector).prop('checked', checked);
+                    } else {
+                        F.ui.Grid2.el.find(checkboxSelector).prop('checked', checked);
+                    }
+                }
+
+                function onSelectAllClick(event) {
+                    selectPowerCheckboxs(true);
+                }
+
+                function onUnselectAllClick(event) {
+                    selectPowerCheckboxs(false);
+                }
+
+                // 服务端加载完当前角色后调用：按角色已有权限勾选复选框
+                function updateRolePowers(powerIds) {
+                    getAllCheckboxEls().each(function() {
+                        var checkboxEl = $(this),
+                            checkboxValue = parseInt(checkboxEl.val(), 10);
+                        checkboxEl.prop('checked', $.inArray(checkboxValue, powerIds) >= 0);
+                    });
+                }
+
+                function savePowers(event) {
+                    var selectedPowerIDs = [];
+                    getAllCheckboxEls().each(function() {
+                        var checkboxEl = $(this);
+                        if (checkboxEl.prop('checked')) {
+                            selectedPowerIDs.push(parseInt(checkboxEl.val(), 10));
+                        }
+                    });
+                    F.customEvent('Grid2_SavePowers', {
+                        powerIDs: selectedPowerIDs
+                    });
+                }
+
+            </script>
+        </th:block>
+    </body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>FineUI.Java.AppBox - 通用权限管理系统</title>
+        <link th:href="@{/res/css/index.css}" rel="stylesheet" />
+        <link th:href="@{/res/css/mobileview.css}" rel="stylesheet" />
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+
+            <f:panel id="mainPanel" layout="Region" css-class="mainpanel" show-border="false" show-header="false" is-view-port="true">
+                <f:items>
+                    <!--/* 左侧区域：Logo + 菜单树（菜单树由 IndexModel 按当前用户权限从菜单表生成） */-->
+                    <f:panel id="sidebarRegion" css-class="sidebarregion" show-border="false" width="260" show-header="false" enable-collapse="false"
+                        collapsed="false" layout="VBox" region-position="Left" region-split="true" region-split-icon="false" region-split-width="3"
+                        region-split-transparent="true">
+                        <f:items>
+                            <f:content-panel id="sideheaderTopPanel" css-class="topregion" show-border="false" show-header="false">
+                                <div id="sideheader" class="f-widget-header f-mainheader">
+                                    <a class="logo" th:href="@{/}" title="FineUI.Java.AppBox">FineUI.Java.AppBox</a>
+                                    <div class="logo-subtitle">Spring Boot</div>
+                                </div>
+                            </f:content-panel>
+                            <f:panel id="leftPanel" css-class="leftregion" box-flex="1" show-border="false" show-header="false" layout="Fit">
+                                <f:items>
+                                    <f:tree id="treeMenu" show-border="false" show-header="false" enable-single-click-expand="true" hide-h-scrollbar="true"
+                                        hide-v-scrollbar="true" expander-to-right="true" header-style="true" all-header-style="true"></f:tree>
+                                </f:items>
+                            </f:panel>
+                        </f:items>
+                        <f:listeners>
+                            <f:listener event="splitdrag" handler="onSidebarSplitDrag"></f:listener>
+                        </f:listeners>
+                    </f:panel>
+
+                    <!--/* 右侧区域：顶部页头 + 选项卡工作区 */-->
+                    <f:panel id="bodyRegion" css-class="bodyregion" region-position="Center" show-border="false" show-header="false" layout="VBox">
+                        <f:items>
+                            <f:content-panel id="topPanel" css-class="topregion" show-border="false" show-header="false">
+                                <div id="header" class="f-widget-header f-mainheader">
+                                    <div class="header-left">
+                                        <f:button id="btnCollapseSidebar" css-class="icononlyaction" tool-tip="折叠/展开侧边栏" icon-align="Top" icon-font="_Fold"
+                                            enable-default-state="false" tab-index="-1" click-handler="onFoldClick"></f:button>
+                                    </div>
+                                    <div class="header-right">
+                                        <f:button css-class="icontopaction" id="Button1" text="下载源码" icon-align="Top" icon-font="_Download"
+                                            enable-default-state="false" enable-default-corner="false" click-handler="onDownloadClick"></f:button>
+                                        <!--/* 系统帮助：下拉菜单项由 IndexModel 按全局配置 HelpList 动态生成 */-->
+                                        <f:button id="btnSystemHelp" text="系统帮助" css-class="icontopaction" icon-align="Top" icon-font="_Question"
+                                            enable-default-state="false" enable-default-corner="false" show-menu-icon="false"></f:button>
+                                        <f:button css-class="icontopaction" id="btnThemeSelect" text="主题仓库" icon-align="Top" icon-font="_Skin"
+                                            enable-default-state="false" enable-default-corner="false" tab-index="-1" click-handler="onThemeSelectClick">
+                                        </f:button>
+                                        <f:button id="btnUserName" css-class="userpicaction" icon-url="/res/images/my_face_80.jpg" icon-align="Left"
+                                            show-menu-icon="true" enable-default-state="false" enable-default-corner="false">
+                                            <f:menu>
+                                                <f:menu-button id="btnSignOut" text="安全退出" icon-font="_SignOut" confirm-text="确定退出系统？"
+                                                    on-click="btnSignOut_Click"></f:menu-button>
+                                            </f:menu>
+                                        </f:button>
+                                    </div>
+                                </div>
+                            </f:content-panel>
+                            <f:tab-strip id="mainTabStrip" css-class="centerregion" show-ink-bar="true" ink-bar-position="Bottom" box-flex="1"
+                                show-border="true" enable-tab-close-menu="true">
+                                <f:tabs>
+                                    <f:tab id="tabHomepage" title="首页" icon-font="_Home" enable-iframe="true" iframe-url="/admin/index"></f:tab>
+                                </f:tabs>
+                                <f:tools>
+                                    <f:tool icon-font="_Refresh" css-class="tabtool" tool-tip="刷新" id="toolRefresh" click-handler="onToolRefreshClick"></f:tool>
+                                    <f:tool icon-font="_Maximize" css-class="tabtool" tool-tip="最大化" id="toolMaximize" click-handler="onToolMaximizeClick">
+                                    </f:tool>
+                                </f:tools>
+                            </f:tab-strip>
+                        </f:items>
+                    </f:panel>
+                </f:items>
+            </f:panel>
+
+            <f:window id="windowThemeRoller" title="主题仓库" hidden="true" enable-iframe="true" iframe-url="/themes" clear-iframe-after-close="false"
+                is-modal="true" width="850" height="600" enable-close="true" enable-maximize="true" enable-resize="true" window-position="Center"></f:window>
+        </th:block>
+
+        <th:block layout:fragment="script">
+            <script>
+                var PARAMS = {
+                    mainPanel: 'mainPanel',
+                    mainTabStrip: 'mainTabStrip',
+                    treeMenu: 'treeMenu',
+                    sidebarRegion: 'sidebarRegion',
+                    topPanel: 'topPanel',
+                    btnCollapseSidebar: 'btnCollapseSidebar',
+                    tabHomepage: 'tabHomepage',
+                    windowThemeRoller: 'windowThemeRoller'
+                };
+
+            </script>
+            <script th:src="@{/res/js/index.js}"></script>
+            <script th:src="@{/res/js/mobileview.js}"></script>
+        </th:block>
+    </body>
+
+</html>

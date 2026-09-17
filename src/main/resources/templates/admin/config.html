@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>系统配置</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:panel id="Panel1" show-header="false" show-border="true" show-border-shadow="true" body-padding="10" is-fluid="true" auto-scroll="true"
+                margin="20">
+                <f:items>
+                    <f:simple-form id="SimpleForm1" label-align="Top" show-border="false" show-header="false" width="600">
+                        <f:items>
+                            <f:drop-down-list id="ddlPageSize" label="表格默认记录数" required="true" show-red-star="true">
+                                <f:list-item text="10" value="10"></f:list-item>
+                                <f:list-item text="20" value="20"></f:list-item>
+                                <f:list-item text="50" value="50"></f:list-item>
+                                <f:list-item text="100" value="100"></f:list-item>
+                            </f:drop-down-list>
+                            <f:text-area id="tbxHelpList" height="450" label="帮助下拉列表" required="true" show-red-star="true"></f:text-area>
+                            <f:button id="btnSave" icon="SystemSave" on-click="btnSave_Click" validate-forms="SimpleForm1" validate-target="Top" text="保存">
+                            </f:button>
+                        </f:items>
+                    </f:simple-form>
+                </f:items>
+            </f:panel>
+        </th:block>
+
+        <th:block layout:fragment="script">
+            <script>
+                // 配置保存成功后由服务端调用：整站刷新以应用新配置
+                function reloadTopWindow() {
+                    top.window.location.reload();
+                }
+
+            </script>
+        </th:block>
+    </body>
+
+</html>

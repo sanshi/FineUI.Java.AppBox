@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--/*
+  公告详情（公开页，无需登录）。既在列表页的弹窗里打开，也支持把 /public/notice-detail?id=8 直接发给别人。
+*/-->
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>公告详情</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:panel id="Panel1" show-border="false" show-header="false" is-view-port="true" body-padding="10" layout="Fit">
+                <f:toolbars>
+                    <f:toolbar id="Toolbar1">
+                        <f:items>
+                            <f:button id="btnClose" icon="SystemClose" text="关闭" click-handler="closeActiveWindow"></f:button>
+                        </f:items>
+                    </f:toolbar>
+                </f:toolbars>
+                <f:items>
+                    <f:form id="SimpleForm1" show-border="true" show-border-shadow="true" show-header="false" body-padding="10" auto-scroll="true"
+                        label-width="80">
+                        <f:rows>
+                            <f:form-row>
+                                <f:items>
+                                    <f:label id="labTitle" label="标题"></f:label>
+                                </f:items>
+                            </f:form-row>
+                            <f:form-row>
+                                <f:items>
+                                    <f:label id="labDepartment" label="发布部门"></f:label>
+                                    <f:label id="labPublishTime" label="发布时间"></f:label>
+                                </f:items>
+                            </f:form-row>
+                            <f:form-row>
+                                <f:items>
+                                    <f:label id="labContent" label="正文"></f:label>
+                                </f:items>
+                            </f:form-row>
+                        </f:rows>
+                    </f:form>
+                </f:items>
+            </f:panel>
+        </th:block>
+    </body>
+
+</html>

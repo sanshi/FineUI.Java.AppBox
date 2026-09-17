@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Error</title>
+    </head>
+
+    <body>
+        <h1 class="text-danger" th:text="${error} ?: 'Error'">Error</h1>
+        <h2 class="text-danger">An error occurred while processing your request.</h2>
+        <p>
+            <span>Status:</span> <code th:text="${status}"></code>
+            <span>Path:</span> <code th:text="${path}"></code>
+        </p>
+    </body>
+
+</html>

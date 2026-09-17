@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>用户管理</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:panel id="Panel1" show-border="false" layout="VBox" box-config-space="10" show-header="false" is-view-port="true" margin="20">
+                <f:items>
+                    <f:form show-border="true" show-border-shadow="true" body-padding="10" remove-last-fields-margin="true" show-header="false">
+                        <f:rows>
+                            <f:form-row id="FormRow1">
+                                <f:items>
+                                    <f:twin-trigger-box id="ttbSearchMessage" show-label="false" empty-text="在用户名称中搜索" trigger1-icon="Clear"
+                                        trigger2-icon="Search" show-trigger1="false" on-trigger1-click="ttbSearchMessage_Trigger1Click"
+                                        on-trigger2-click="ttbSearchMessage_Trigger2Click"></f:twin-trigger-box>
+                                    <f:radio-button-list id="rblEnableStatus" on-selected-index-changed="rblEnableStatus_SelectedIndexChanged" label="启用状态"
+                                        column-number="3">
+                                        <f:radio-item text="全部" selected="true" value="all"></f:radio-item>
+                                        <f:radio-item text="启用" value="enabled"></f:radio-item>
+                                        <f:radio-item text="禁用" value="disabled"></f:radio-item>
+                                    </f:radio-button-list>
+                                </f:items>
+                            </f:form-row>
+                        </f:rows>
+                    </f:form>
+                    <f:grid id="Grid1" box-flex="1" show-border="true" show-border-shadow="true" show-header="false" enable-check-box-select="true"
+                        row-type-from="users" data-id-field="id" data-text-field="name" data-key-names="id" allow-sorting="true" sort-field="name"
+                        sort-direction="DESC" on-sort="Grid1_Sort" allow-paging="true" is-database-paging="true" on-page-index-changed="Grid1_PageIndexChanged"
+                        on-row-command="Grid1_RowCommand">
+                        <f:columns>
+                            <f:row-number-field enable-paging-number="true"></f:row-number-field>
+                            <f:render-field for="name" quick-sort-field="true" width="100"></f:render-field>
+                            <f:render-field for="chineseName" quick-sort-field="true" width="100"></f:render-field>
+                            <f:render-check-field for="enabled" quick-sort-field="true" render-as-static-field="true" width="80"></f:render-check-field>
+                            <f:render-field for="gender" quick-sort-field="true" width="80"></f:render-field>
+                            <f:render-field for="email" quick-sort-field="true" width="180"></f:render-field>
+                            <f:render-field for="remark" expand-unused-space="true"></f:render-field>
+                            <f:render-field enable-column-hide="false" enable-header-menu="false" width="150">
+                                <f:commands>
+                                    <f:command command-name="View" icon="Information" tool-tip="查看用户信息" window-id="Window1" window-title="查看用户信息"
+                                        window-iframe-url-format-string="/admin/user-view?id={0}" window-iframe-url-fields="id"></f:command>
+                                    <f:command command-name="ChangePassword" icon="Key" tool-tip="修改密码" window-id="Window1" window-title="修改密码"
+                                        window-iframe-url-format-string="/admin/user-change-password?id={0}" window-iframe-url-fields="id"></f:command>
+                                    <f:command command-name="Edit" icon="Pencil" tool-tip="编辑" window-id="Window1" window-title="编辑"
+                                        window-iframe-url-format-string="/admin/user-edit?id={0}" window-iframe-url-fields="id"></f:command>
+                                    <f:command command-name="Delete" icon="Delete" tool-tip="删除" css-class="mybtn3" confirm-text="确定删除此记录？"
+                                        confirm-target="Top"></f:command>
+                                </f:commands>
+                            </f:render-field>
+                        </f:columns>
+                        <f:page-items>
+                            <f:toolbar-text text="每页记录数："></f:toolbar-text>
+                            <f:drop-down-list id="ddlGridPageSize" width="80" on-selected-index-changed="ddlGridPageSize_SelectedIndexChanged">
+                                <f:list-item text="10" value="10"></f:list-item>
+                                <f:list-item text="20" value="20"></f:list-item>
+                                <f:list-item text="50" value="50"></f:list-item>
+                                <f:list-item text="100" value="100"></f:list-item>
+                            </f:drop-down-list>
+                        </f:page-items>
+                        <f:toolbars>
+                            <f:toolbar id="Toolbar1" position="Top">
+                                <f:items>
+                                    <f:button id="btnDeletedSelected" icon="Delete" text="删除选中记录" click-handler="onDeleteSelectedClick"></f:button>
+                                    <f:toolbar-separator></f:toolbar-separator>
+                                    <f:button id="btnChangeEnableUsers" icon="GroupEdit" text="设置启用状态">
+                                        <f:menu>
+                                            <f:menu-button id="btnEnableUsers" text="启用选中记录" click-handler="onEnableUsersClick"></f:menu-button>
+                                            <f:menu-button id="btnDisableUsers" text="禁用选中记录" click-handler="onDisableUsersClick"></f:menu-button>
+                                        </f:menu>
+                                    </f:button>
+                                    <f:toolbar-fill></f:toolbar-fill>
+                                    <f:button id="btnNew" icon="Add" text="新增用户" click-handler="onNewClick"></f:button>
+                                </f:items>
+                            </f:toolbar>
+                        </f:toolbars>
+                    </f:grid>
+                </f:items>
+            </f:panel>
+
+            <f:window id="Window1" is-modal="true" hidden="true" target="Top" enable-resize="true" enable-maximize="true" enable-iframe="true" width="900"
+                height="650" close-action="HidePostBack" on-close="Window1_Close"></f:window>
+        </th:block>
+
+        <th:block layout:fragment="script">
+            <script>
+                function onNewClick(event) {
+                    F.ui.Window1.show(F.resolveUrl('/admin/user-new'), '新增用户');
+                }
+
+                // 对选中行做批量操作前的确认：选中行主键经自定义事件回传服务端
+                function confirmSelectedRows(actionText, eventName, extraArgs) {
+                    var grid1 = F.ui.Grid1;
+                    if (!grid1.hasSelection()) {
+                        F.alert('请至少选择一项！');
+                        return;
+                    }
+                    var selectedRows = grid1.getSelectedRows();
+                    F.confirm({
+                        message: F.rawHtml('你确定要{0}选中的&nbsp;<b>{1}</b>&nbsp;行数据吗？', actionText, selectedRows.length),
+                        target: '_top',
+                        ok: function() {
+                            var args = extraArgs || {};
+                            args.rowIDs = selectedRows;
+                            F.customEvent(eventName, args);
+                        }
+                    });
+                }
+
+                function onDeleteSelectedClick(event) {
+                    confirmSelectedRows('删除', 'Grid1_DeleteRows');
+                }
+
+                function onEnableUsersClick(event) {
+                    confirmSelectedRows('启用', 'Grid1_EnableRows', {
+                        action: 'enable'
+                    });
+                }
+
+                function onDisableUsersClick(event) {
+                    confirmSelectedRows('禁用', 'Grid1_EnableRows', {
+                        action: 'disable'
+                    });
+                }
+
+            </script>
+        </th:block>
+    </body>
+
+</html>

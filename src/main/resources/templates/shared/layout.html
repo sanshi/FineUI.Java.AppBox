@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!--/*
+  母版：唯一写 html/head/body 骨架的地方。各页用 layout:decorate 装饰本母版，只提供 layout:fragment="body" 的内容片段。
+  三个可填充槽：head（页面专属 CSS/meta）、body（页面主体，必填）、script（页面专属脚本，注入 body 末）。
+  运行时输出点：f:styles 在 head 输出 CSS link（含按 Theme cookie 选定的主题）；f:scripts 在 body 末输出 FineUI.js + 语言包 + F.render。
+*/-->
+<html f:lang="true" xmlns:f="http://fineui.com/java">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title layout:title-pattern="$CONTENT_TITLE">FineUI.Java.AppBox - 通用权限管理系统</title>
+        <f:styles></f:styles>
+        <link rel="stylesheet" type="text/css" th:href="@{/res/css/common.css}" />
+        <th:block layout:fragment="head"></th:block>
+    </head>
+
+    <body class="f-body-darkerbg">
+        <th:block layout:fragment="body"></th:block>
+        <f:scripts></f:scripts>
+        <script type="text/javascript" th:src="@{/res/js/common.js}"></script>
+        <th:block layout:fragment="script"></th:block>
+    </body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>添加用户到当前职称</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:panel id="Panel1" show-border="false" show-header="false" is-view-port="true" body-padding="10" layout="VBox">
+                <f:toolbars>
+                    <f:toolbar id="Toolbar1">
+                        <f:items>
+                            <f:button id="btnClose" icon="SystemClose" text="关闭" click-handler="closeActiveWindow"></f:button>
+                            <f:toolbar-separator></f:toolbar-separator>
+                            <f:button id="btnSaveClose" icon="SystemSaveClose" text="选择后关闭" on-click="btnSaveClose_Click"></f:button>
+                            <f:toolbar-fill></f:toolbar-fill>
+                            <f:twin-trigger-box id="ttbSearchMessage" show-label="false" empty-text="在用户名称中搜索" trigger1-icon="Clear" trigger2-icon="Search"
+                                show-trigger1="false" on-trigger1-click="ttbSearchMessage_Trigger1Click"
+                                on-trigger2-click="ttbSearchMessage_Trigger2Click"></f:twin-trigger-box>
+                        </f:items>
+                    </f:toolbar>
+                </f:toolbars>
+                <f:items>
+                    <f:panel show-border="true" show-border-shadow="true" show-header="false" body-padding="10" margin-bottom="10">
+                        <f:items>
+                            <f:label id="labSelectedUsers" encode-text="false" css-style="margin:0;"></f:label>
+                        </f:items>
+                    </f:panel>
+                    <f:grid id="Grid1" box-flex="1" show-border="true" show-header="false" enable-check-box-select="true" row-type-from="users"
+                        data-id-field="id" data-text-field="name" allow-sorting="true" sort-field="name" sort-direction="DESC" on-sort="Grid1_Sort"
+                        allow-paging="true" is-database-paging="true" on-page-index-changed="Grid1_PageIndexChanged" clear-selection-before-paging="false"
+                        clear-selection-before-binding="false" keep-current-selection="true" keep-paged-selection="true">
+                        <f:columns>
+                            <f:row-number-field enable-paging-number="true"></f:row-number-field>
+                            <f:render-field for="name" quick-sort-field="true" width="100"></f:render-field>
+                            <f:render-field for="chineseName" quick-sort-field="true" width="100"></f:render-field>
+                            <f:render-check-field for="enabled" quick-sort-field="true" render-as-static-field="true" width="80"></f:render-check-field>
+                            <f:render-field for="gender" quick-sort-field="true" width="80"></f:render-field>
+                            <f:render-field for="email" quick-sort-field="true" width="180"></f:render-field>
+                            <f:render-field for="remark" expand-unused-space="true"></f:render-field>
+                        </f:columns>
+                        <f:page-items>
+                            <f:toolbar-text text="每页记录数："></f:toolbar-text>
+                            <f:drop-down-list id="ddlGridPageSize" width="80" on-selected-index-changed="ddlGridPageSize_SelectedIndexChanged">
+                                <f:list-item text="10" value="10"></f:list-item>
+                                <f:list-item text="20" value="20"></f:list-item>
+                                <f:list-item text="50" value="50"></f:list-item>
+                                <f:list-item text="100" value="100"></f:list-item>
+                            </f:drop-down-list>
+                        </f:page-items>
+                        <f:listeners>
+                            <f:listener event="dataload" handler="onGrid1DataLoad"></f:listener>
+                            <f:listener event="selectionchange" handler="onGrid1SelectionChange"></f:listener>
+                        </f:listeners>
+                    </f:grid>
+                </f:items>
+            </f:panel>
+        </th:block>
+
+        <th:block layout:fragment="script">
+            <script>
+                // 缓存各页已选中行的数据（跨页保持选中时，其它页的行数据不在当前页里）
+                var cachedRows = {};
+
+                function updateLabelResult() {
+                    var selectedRowIds = F.ui.Grid1.getSelectedRows();
+                    if (!selectedRowIds.length) {
+                        F.ui.labSelectedUsers.setText('尚未选中任何用户');
+                        return;
+                    }
+                    var result = [];
+                    $.each(selectedRowIds, function(index, rowId) {
+                        var rowData = cachedRows[rowId];
+                        if (rowData) {
+                            result.push('<strong>' + F.htmlEncode(rowData.values['chineseName']) + '</strong>（' + F.htmlEncode(rowData.values['name']) +
+                                '）');
+                        }
+                    });
+                    F.ui.labSelectedUsers.setText('选中了 <strong>' + result.length + '</strong> 位用户：' + result.join(', '));
+                }
+
+                // 缓存当前页选中行的数据
+                function cacheCurrentPage() {
+                    $.each(F.ui.Grid1.getSelectedRows(true), function(index, item) {
+                        if (!cachedRows[item.id]) {
+                            cachedRows[item.id] = item;
+                        }
+                    });
+                }
+
+                function onGrid1SelectionChange(event) {
+                    cacheCurrentPage();
+                    updateLabelResult();
+                }
+
+                function onGrid1DataLoad(event) {
+                    cacheCurrentPage();
+                    updateLabelResult();
+                }
+
+            </script>
+        </th:block>
+    </body>
+
+</html>

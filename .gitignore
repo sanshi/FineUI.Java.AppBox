@@ -1,0 +1,42 @@
+# ---- Maven / 构建产物 ----
+target/
+
+# ---- H2 文件数据库（运行时生成，不入库） ----
+/data/
+
+# ---- IDE ----
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# ---- 日志 / 临时 ----
+*.log
+Thumbs.db
+
+# ---- 端到端冒烟脚本的依赖与截图 ----
+e2e/node_modules/
+e2e/*.png
+
+# FineUI 公共仓库本地文件
+[Bb]in/
+[Oo]bj/
+target/
+[Pp]ackages/
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.iml
+*.nupkg
+*.snupkg
+*.mv.db
+*.trace.db
+Directory.Build.local.props
+NuGet.Config
+.local/
+FineUI*.lic*.config
+FineUI.Enterprise.props

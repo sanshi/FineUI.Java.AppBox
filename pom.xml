@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 继承 spring-boot-starter-parent 拿依赖版本管理，与 fineui-java 库栈一致 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.fineui</groupId>
+    <artifactId>fineui-java-appbox</artifactId>
+    <version>16.0.0-beta.1</version>
+    <name>FineUI.Java.AppBox</name>
+    <description>FineUI.Java.AppBox 通用权限管理系统（Spring Boot + FineUI.Java + JPA + H2）</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fineui.version>16.0.0-beta.1</fineui.version>
+    </properties>
+
+    <dependencies>
+        <!-- FineUI.Java 库：方言 / 回发端点 / 页面路由扫描 / 内嵌 F.js 运行时全自动装配，业务侧零 UI 相关 @Configuration -->
+        <dependency>
+            <groupId>com.fineui</groupId>
+            <artifactId>fineui-java</artifactId>
+            <version>${fineui.version}</version>
+        </dependency>
+
+        <!-- 数据访问：Spring Data JPA + Hibernate -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- H2 数据库（运行期）：嵌入式、零安装，文件模式持久化 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- 登录认证与 CSRF：Spring Security（会话模式；业务权限由本项目自建的 @CheckPower 负责） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- 表单校验：fineui-java 里是 optional 不传递，独立项目须显式加，否则 getModelState().isValid() 走不通校验 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- 开发期热部署（可选）：改 Java 后自动重启、改模板刷新即生效 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

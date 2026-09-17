@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>编辑菜单</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:panel id="Panel1" show-border="false" show-header="false" is-view-port="true" body-padding="10" layout="Fit">
+                <f:toolbars>
+                    <f:toolbar id="Toolbar1">
+                        <f:items>
+                            <f:button id="btnClose" icon="SystemClose" text="关闭" click-handler="closeActiveWindow"></f:button>
+                            <f:toolbar-separator></f:toolbar-separator>
+                            <f:button id="btnSaveClose" validate-forms="SimpleForm1" icon="SystemSaveClose" on-click="btnSaveClose_Click" text="保存后关闭">
+                            </f:button>
+                        </f:items>
+                    </f:toolbar>
+                </f:toolbars>
+                <f:items>
+                    <f:simple-form id="SimpleForm1" show-border="true" show-border-shadow="true" show-header="false" body-padding="10" auto-scroll="true">
+                        <f:items>
+                            <f:text-box for="menu.name"></f:text-box>
+                            <f:drop-down-box id="ddbParent" label="上级菜单" auto-show-clear-icon="true">
+                                <f:pop-panel>
+                                    <f:grid id="Grid1" show-border="true" show-header="false" hidden="true" width="550" show-grid-header="false"
+                                        data-id-field="id" data-text-field="name" enable-tree="true" tree-column="name" data-parent-id-field="parentId"
+                                        expand-all-tree-nodes="true" disable-unselectable-rows="true" enable-row-lines="false"
+                                        enable-alternate-row-color="false" on-row-data-bound="Grid1_RowDataBound">
+                                        <f:columns>
+                                            <f:render-field column-id="name" data-field="name" header-text="菜单名称" expand-unused-space="true"></f:render-field>
+                                        </f:columns>
+                                    </f:grid>
+                                </f:pop-panel>
+                            </f:drop-down-box>
+                            <f:number-box for="menu.sortIndex"></f:number-box>
+                            <f:text-box id="tbxViewPower" label="浏览权限"></f:text-box>
+                            <f:text-box for="menu.navigateUrl"></f:text-box>
+                            <f:text-box for="menu.imageUrl">
+                                <f:listeners>
+                                    <f:listener event="change" handler="onImageUrlChange"></f:listener>
+                                </f:listeners>
+                            </f:text-box>
+                            <f:radio-button-list id="rblIconList" column-number="4" show-empty-label="true">
+                                <f:listeners>
+                                    <f:listener event="change" handler="onIconListChange"></f:listener>
+                                </f:listeners>
+                            </f:radio-button-list>
+                            <f:text-area for="menu.remark"></f:text-area>
+                        </f:items>
+                    </f:simple-form>
+                </f:items>
+            </f:panel>
+        </th:block>
+
+        <th:block layout:fragment="script">
+            <script>
+                // 点选预置图标时，把图标地址填进「图标」输入框（图标输入框的 id 由绑定表达式派生）
+                function onIconListChange(event) {
+                    var imageUrlBox = F.ui.menu_imageUrl;
+                    if (imageUrlBox) {
+                        imageUrlBox.setValue(this.getValue());
+                    }
+                }
+
+                // 手工改了图标地址：与预置图标匹配的就同步勾上，否则清掉选中
+                function onImageUrlChange(event) {
+                    var iconList = F.ui.rblIconList;
+                    if (iconList) {
+                        iconList.setValue(this.getValue());
+                    }
+                }
+
+            </script>
+        </th:block>
+    </body>
+
+</html>

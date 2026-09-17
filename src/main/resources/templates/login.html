@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>登录 - FineUI.Java.AppBox</title>
+
+        <script th:inline="javascript">
+            // 会话过期后功能页在框架页的 IFrame 里被重定向到本页：让顶层窗口整体跳到登录页
+            if (top.window != window) {
+                top.window.location.href = /*[[@{/login}]]*/ '/login';
+            }
+
+        </script>
+
+        <style>
+            .login-image {
+                background-color: #efefef;
+                border-right: solid 1px #ddd;
+                margin-bottom: 0 !important;
+            }
+
+            .login-image .f-field-label {
+                display: flex;
+                align-items: center;
+            }
+
+            .login-image img {
+                width: 160px;
+                height: 160px;
+                padding: 10px;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:window id="Window1" show-border-shadow="true" is-modal="true" hidden="false" enable-close="false" enable-maximize="false"
+                window-position="GoldenSection" icon="Key" layout="HBox" width="500">
+                <f:items>
+                    <f:image id="imageLogin" image-url="/res/images/login/login_2.png" css-class="login-image"></f:image>
+                    <f:simple-form id="SimpleForm1" label-align="Top" box-flex="1" body-padding="30 20" show-border="false" show-header="false">
+                        <f:items>
+                            <f:text-box id="tbxUserName" label="帐号" required="true" show-red-star="true" focus-on-page-load="true"></f:text-box>
+                            <f:text-box id="tbxPassword" text-mode="Password" required="true" show-red-star="true" label="密码"></f:text-box>
+                        </f:items>
+                    </f:simple-form>
+                </f:items>
+                <f:toolbars>
+                    <f:toolbar position="Bottom">
+                        <f:items>
+                            <f:toolbar-text text="管理员账号: admin/admin"></f:toolbar-text>
+                            <f:toolbar-fill></f:toolbar-fill>
+                            <f:button id="btnSubmit" icon="LockOpen" type="Submit" validate-forms="SimpleForm1" on-click="btnSubmit_Click" text="登陆"></f:button>
+                        </f:items>
+                    </f:toolbar>
+                </f:toolbars>
+            </f:window>
+        </th:block>
+    </body>
+
+</html>

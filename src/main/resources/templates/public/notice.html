@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--/*
+  通知公告（公开页，无需登录）。
+  能匿名访问不靠模板里的任何写法，而靠安全配置放行了 /public/** 这条路径规则。
+*/-->
+<html xmlns:f="http://fineui.com/java" layout:decorate="~{shared/layout}">
+
+    <head>
+        <title>通知公告</title>
+    </head>
+
+    <body>
+        <th:block layout:fragment="body">
+            <f:panel id="Panel1" show-border="false" show-header="false" layout="VBox" box-config-space="10" is-view-port="true" margin="20">
+                <f:items>
+                    <f:form show-border="true" show-border-shadow="true" body-padding="10" remove-last-fields-margin="true" show-header="false">
+                        <f:rows>
+                            <f:form-row>
+                                <f:items>
+                                    <f:twin-trigger-box id="ttbSearchTitle" show-label="false" empty-text="在公告标题中搜索" trigger1-icon="Clear"
+                                        trigger2-icon="Search" show-trigger1="false" on-trigger1-click="ttbSearchTitle_Trigger1Click"
+                                        on-trigger2-click="ttbSearchTitle_Trigger2Click"></f:twin-trigger-box>
+                                    <f:label id="labSignedIn" show-label="false" css-style="color:#888;text-align:right;"></f:label>
+                                </f:items>
+                            </f:form-row>
+                        </f:rows>
+                    </f:form>
+                    <f:grid id="Grid1" box-flex="1" show-border="true" show-border-shadow="true" title="通知公告" show-header="true" enable-check-box-select="false"
+                        row-type-from="notices" data-id-field="id" data-key-names="id" allow-paging="true" page-size="5" is-database-paging="true"
+                        on-page-index-changed="Grid1_PageIndexChanged">
+                        <f:columns>
+                            <f:row-number-field enable-paging-number="true"></f:row-number-field>
+                            <f:render-field for="title" expand-unused-space="true"></f:render-field>
+                            <f:render-field for="department" width="120"></f:render-field>
+                            <f:render-field for="publishTime" width="150"></f:render-field>
+                            <f:render-field enable-column-hide="false" enable-header-menu="false" width="60">
+                                <f:commands>
+                                    <f:command command-name="View" icon="Find" tool-tip="查看全文" window-id="Window1" window-title="公告详情"
+                                        window-iframe-url-format-string="/public/notice-detail?id={0}" window-iframe-url-fields="id"></f:command>
+                                </f:commands>
+                            </f:render-field>
+                        </f:columns>
+                    </f:grid>
+                </f:items>
+            </f:panel>
+
+            <f:window id="Window1" is-modal="true" hidden="true" target="Top" enable-resize="true" enable-maximize="true" enable-iframe="true" width="760"
+                height="520" close-action="Hide"></f:window>
+        </th:block>
+    </body>
+
+</html>
