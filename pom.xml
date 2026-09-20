@@ -4,11 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- 继承 spring-boot-starter-parent 拿依赖版本管理，与 fineui-java 库栈一致 -->
+    <!-- 继承 spring-boot-starter-parent 拿依赖版本管理。应用工程直接跑在 FineUI.Java 支持区间的
+         上沿（Boot 4.1.x）；tomcat.version 覆盖托管值 11.0.24，消掉 CVE-2026-65182 等已知漏洞。 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>4.1.1</version>
         <relativePath/>
     </parent>
 
@@ -22,6 +23,8 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fineui.version>16.0.0-beta.2</fineui.version>
+        <!-- 覆盖 Boot 4.1.1 托管的 Tomcat 11.0.24：消掉 CVE-2026-65182 等已知漏洞（同 minor patch 级替换） -->
+        <tomcat.version>11.0.26</tomcat.version>
     </properties>
 
     <dependencies>
@@ -43,6 +46,14 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- H2 Web 控制台（/h2-console）的自动配置。Boot 4 起它拆成独立模块，
+             光有 com.h2database:h2 不够（且 PathRequest.toH2Console() 运行时会引用其中的
+             H2ConsoleProperties，缺模块会在安全过滤链里抛 ClassNotFound）。 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-h2console</artifactId>
         </dependency>
 
         <!-- 登录认证与 CSRF：Spring Security（会话模式；业务权限由本项目自建的 @CheckPower 负责） -->
