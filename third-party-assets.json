@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "auditStatus": "complete",
   "targetPath": "src/main/resources/static/res",
-  "resourceTreeSha256": "c5b57b29949e088fce59a021800660405f59bb23d6530bb649743b0c5fd96874",
+  "resourceTreeSha256": "58b50e7e11a97d7a690d2610c918dd37ec3c6115829f770e9cc0bc44c7ed7023",
   "thirdPartyAssets": [
     {
       "name": "FamFamFam Silk Icons",
