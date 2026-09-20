@@ -106,19 +106,6 @@ npm run crud
 
 可用环境变量 `BASE`（默认 `http://127.0.0.1:8082`）指向别的地址，`OUT` 指定截图输出目录。
 
-## 项目说明
-
-### 注意
-
-1. FineUI.Java.AppBox 作为演示项目，请不要直接用于真实项目。
-2. FineUI.Java.AppBox 作为演示项目，版本之间不兼容，也不支持版本升级。
-
-### 知识储备
-
-1. 页面用 Thymeleaf 模板声明控件、事件写在页面类里；如需补充 Spring Boot 基础，见官方文档：https://spring.io/projects/spring-boot
-2. 数据访问用 Spring Data JPA，实体注解即表结构；参考：https://spring.io/projects/spring-data-jpa
-3. 数据库为嵌入式 H2（文件模式、零安装、首次启动自动建表并写入演示数据）；参考：https://www.h2database.com/html/main.html
-
 ## 发布历史
 
 各版本的更新内容见 [CHANGELOG.md](CHANGELOG.md)。
