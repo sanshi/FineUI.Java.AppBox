@@ -1,7 +1,8 @@
 package com.fineui.java.appbox.pages;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fineui.java.appbox.business.AppBoxPageBase;
+import tools.jackson.databind.JsonNode;
+import com.fineui.java.appbox.business.PageBase;
+import com.fineui.java.appbox.business.Json;
 import com.fineui.java.appbox.model.Menu;
 import com.fineui.java.appbox.repository.MenuRepository;
 import com.fineui.java.core.EventArgs;
@@ -21,7 +22,7 @@ import java.util.Objects;
  * 菜单树从菜单表生成，只保留当前用户有浏览权限的菜单、并剔除因此变空的目录；帮助下拉菜单由全局配置 HelpList（JSON）生成。
  */
 @FineUIPage("index")
-public class IndexModel extends AppBoxPageBase {
+public class IndexModel extends PageBase {
 
     Tree treeMenu;
     Button btnUserName;
@@ -117,7 +118,7 @@ public class IndexModel extends AppBoxPageBase {
 
         JsonNode items;
         try {
-            items = parseJson(configService.getHelpList());
+            items = Json.parse(configService.getHelpList());
         } catch (RuntimeException e) {
             return;   // 配置里的 JSON 坏了：不生成帮助菜单，但首页要照常打开
         }

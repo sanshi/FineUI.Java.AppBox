@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.business.PasswordUtil;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @FineUIPage("admin/user-new")
 @CheckPower("CoreUserNew")
-public class UserNewModel extends AppBoxAdminPageBase {
+public class UserNewModel extends AdminPageBase {
 
     DropDownBox ddbRoles;
     DropDownBox ddbTitles;

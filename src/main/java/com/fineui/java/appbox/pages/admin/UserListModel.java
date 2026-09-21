@@ -1,8 +1,9 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import tools.jackson.databind.JsonNode;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
+import com.fineui.java.appbox.business.Json;
 import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.UserRepository;
 import com.fineui.java.core.CustomEventArgs;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 @FineUIPage("admin/user-list")
 @CheckPower("CoreUserView")
-public class UserListModel extends AppBoxAdminPageBase {
+public class UserListModel extends AdminPageBase {
 
     Grid Grid1;
     TwinTriggerBox ttbSearchMessage;
@@ -147,7 +148,7 @@ public class UserListModel extends AppBoxAdminPageBase {
 
     /** 批量操作：客户端把勾选行的主键经 F.customEvent 回传。 */
     public void Page_CustomEvent(Object sender, CustomEventArgs e) {
-        JsonNode args = parseJson(e.getArgument());
+        JsonNode args = Json.parse(e.getArgument());
         List<Integer> rowIds = toIntList(args.get("rowIDs"));
         if ("Grid1_DeleteRows".equals(e.getEventName())) {
             deleteRows(rowIds);

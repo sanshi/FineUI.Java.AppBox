@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.pub;
 
-import com.fineui.java.appbox.business.AppBoxPageBase;
+import com.fineui.java.appbox.business.PageBase;
 import com.fineui.java.core.AbortPageException;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
@@ -16,7 +16,7 @@ import com.fineui.java.core.controls.Label;
  * <p>参数取值仍要当作不可信输入：{@code getQueryInt} 解析失败给默认值，查不到记录就中止首屏。
  */
 @FineUIPage("public/notice-detail")
-public class NoticeDetailModel extends AppBoxPageBase {
+public class NoticeDetailModel extends PageBase {
 
     Label labTitle;
     Label labPublishTime;

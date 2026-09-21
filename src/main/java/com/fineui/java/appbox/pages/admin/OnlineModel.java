@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Online;
 import com.fineui.java.appbox.repository.OnlineRepository;
@@ -21,7 +21,7 @@ import java.util.List;
 /** 在线统计（路由 {@code admin/online}）：最近 2 小时内有操作的用户，可按用户名搜索、分页排序，行内查看用户信息。 */
 @FineUIPage("admin/online")
 @CheckPower("CoreOnlineView")
-public class OnlineModel extends AppBoxAdminPageBase {
+public class OnlineModel extends AdminPageBase {
 
     Grid Grid1;
     TwinTriggerBox ttbSearchMessage;

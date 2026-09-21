@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Title;
 import com.fineui.java.appbox.repository.TitleRepository;
@@ -21,7 +21,7 @@ import java.util.List;
 /** 职称列表（路由 {@code admin/title}）：搜索 + 数据库分页排序 + 每页条数切换 + 行内编辑/删除（弹窗）。 */
 @FineUIPage("admin/title")
 @CheckPower("CoreTitleView")
-public class TitleModel extends AppBoxAdminPageBase {
+public class TitleModel extends AdminPageBase {
 
     Grid Grid1;
     TwinTriggerBox ttbSearchMessage;

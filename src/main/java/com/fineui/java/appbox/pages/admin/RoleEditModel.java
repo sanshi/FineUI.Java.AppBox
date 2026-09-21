@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Role;
@@ -15,7 +15,7 @@ import com.fineui.java.core.FineUIPage;
 /** 编辑角色（路由 {@code admin/role-edit}，弹窗内打开）：首屏按 {@code ?id} 加载回显，保存时按主键重读后只覆盖表单字段。 */
 @FineUIPage("admin/role-edit")
 @CheckPower("CoreRoleEdit")
-public class RoleEditModel extends AppBoxAdminPageBase {
+public class RoleEditModel extends AdminPageBase {
 
     @HiddenProperty
     private int roleId;

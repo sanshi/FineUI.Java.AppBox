@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Menu;
 import com.fineui.java.appbox.repository.MenuRepository;
@@ -24,7 +24,7 @@ import java.util.Map;
 /** 编辑菜单（路由 {@code admin/menu-edit}，弹窗内打开）：本菜单及其子菜单不可选为上级；保存走 read-first。 */
 @FineUIPage("admin/menu-edit")
 @CheckPower("CoreMenuEdit")
-public class MenuEditModel extends AppBoxAdminPageBase {
+public class MenuEditModel extends AdminPageBase {
 
     DropDownBox ddbParent;
     Grid Grid1;

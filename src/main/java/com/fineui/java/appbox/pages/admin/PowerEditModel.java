@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Power;
@@ -15,7 +15,7 @@ import com.fineui.java.core.FineUIPage;
 /** 编辑权限（路由 {@code admin/power-edit}，弹窗内打开）：首屏按 {@code ?id} 加载回显，保存时按主键重读后只覆盖表单字段。 */
 @FineUIPage("admin/power-edit")
 @CheckPower("CorePowerEdit")
-public class PowerEditModel extends AppBoxAdminPageBase {
+public class PowerEditModel extends AdminPageBase {
 
     @HiddenProperty
     private int powerId;

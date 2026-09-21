@@ -1,7 +1,6 @@
 package com.fineui.java.appbox.business;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
 import com.fineui.java.core.FineUIPageBase;
 import com.fineui.java.core.GridCommandEventArgs;
 import com.fineui.java.core.controls.Grid;
@@ -20,19 +19,20 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * 全站页面基类：登录身份、权限校验、表格分页排序助手、自定义事件参数解析。
+ * 全站页面基类（所有页面类都继承它或其子类 {@link AdminPageBase}）：登录身份、权限校验、
+ * 表格分页排序助手、自定义事件参数的整型列表助手。
+ *
+ * <p>类名跟随框架基类 {@code FineUIPageBase} 的后缀词，与公开模板和示例工程保持一致，客户一眼能对上。
  * 页面是 Spring 管理的 prototype Bean，公共服务在此按字段注入，子类只需构造器注入自己的数据访问对象。
+ * JSON 解析不在本类：自定义事件的参数用 {@link Json#parse(String)} 直接读，别在基类再包一层。
  */
-public abstract class AppBoxPageBase extends FineUIPageBase {
+public abstract class PageBase extends FineUIPageBase {
 
     @Autowired
     protected AuthService authService;
 
     @Autowired
     protected ConfigService configService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Value("${app.version}")
     private String productVersion;
@@ -211,15 +211,6 @@ public abstract class AppBoxPageBase extends FineUIPageBase {
     }
 
     // —— 自定义事件参数 ——
-
-    /** 把客户端 {@code F.customEvent(name, 参数对象)} 传来的 JSON 参数解析成树。 */
-    protected JsonNode parseJson(String json) {
-        try {
-            return objectMapper.readTree(json == null || json.isEmpty() ? "{}" : json);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("自定义事件参数不是合法的 JSON：" + json, e);
-        }
-    }
 
     /** JSON 数组 → 整型列表（用于 {@code rowIDs} 这类主键数组）。 */
     protected static List<Integer> toIntList(JsonNode array) {

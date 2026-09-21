@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Role;
 import com.fineui.java.appbox.repository.RoleRepository;
@@ -12,7 +12,7 @@ import com.fineui.java.core.FineUIPage;
 /** 新增角色（路由 {@code admin/role-new}，弹窗内打开）。 */
 @FineUIPage("admin/role-new")
 @CheckPower("CoreRoleNew")
-public class RoleNewModel extends AppBoxAdminPageBase {
+public class RoleNewModel extends AdminPageBase {
 
     @BindProperty
     private Role role;

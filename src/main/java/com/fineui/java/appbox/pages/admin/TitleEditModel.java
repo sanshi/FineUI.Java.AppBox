@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Title;
 import com.fineui.java.appbox.repository.TitleRepository;
@@ -14,7 +14,7 @@ import com.fineui.java.core.FineUIPage;
 /** 编辑职称（路由 {@code admin/title-edit}，弹窗内打开）：首屏按 {@code ?id} 加载回显，保存时按主键重读后只覆盖表单字段。 */
 @FineUIPage("admin/title-edit")
 @CheckPower("CoreTitleEdit")
-public class TitleEditModel extends AppBoxAdminPageBase {
+public class TitleEditModel extends AdminPageBase {
 
     @HiddenProperty
     private int titleId;

@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.PasswordUtil;
 import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.UserRepository;
@@ -11,7 +11,7 @@ import com.fineui.java.core.controls.TextBox;
 
 /** 修改当前登录用户自己的密码（路由 {@code admin/change-password}）：校验当前密码、两次新密码一致后更新。 */
 @FineUIPage("admin/change-password")
-public class ChangePasswordModel extends AppBoxAdminPageBase {
+public class ChangePasswordModel extends AdminPageBase {
 
     TextBox tbxOldPassword;
     TextBox tbxNewPassword;

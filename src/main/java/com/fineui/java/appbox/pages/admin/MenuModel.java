@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Menu;
 import com.fineui.java.appbox.repository.MenuRepository;
@@ -16,7 +16,7 @@ import java.util.List;
 /** 菜单管理（路由 {@code admin/menu}）：树形表格展示全部菜单，行内编辑/删除（弹窗）；有子菜单的不能删。 */
 @FineUIPage("admin/menu")
 @CheckPower("CoreMenuView")
-public class MenuModel extends AppBoxAdminPageBase {
+public class MenuModel extends AdminPageBase {
 
     Grid Grid1;
     Button btnNew;

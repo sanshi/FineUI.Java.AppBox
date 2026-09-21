@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages;
 
-import com.fineui.java.appbox.business.AppBoxPageBase;
+import com.fineui.java.appbox.business.PageBase;
 import com.fineui.java.appbox.business.PasswordUtil;
 import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.UserRepository;
@@ -16,7 +16,7 @@ import java.util.Optional;
  * 已登录用户再访问本页时由拦截器直接跳首页。
  */
 @FineUIPage("login")
-public class LoginModel extends AppBoxPageBase {
+public class LoginModel extends PageBase {
 
     Window Window1;
     TextBox tbxUserName;

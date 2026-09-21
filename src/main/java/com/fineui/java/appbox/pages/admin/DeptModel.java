@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Dept;
 import com.fineui.java.appbox.repository.DeptRepository;
@@ -17,7 +17,7 @@ import java.util.List;
 /** 部门管理（路由 {@code admin/dept}）：树形表格展示全部部门，行内编辑/删除（弹窗）；有下级部门或有用户的部门不能删。 */
 @FineUIPage("admin/dept")
 @CheckPower("CoreDeptView")
-public class DeptModel extends AppBoxAdminPageBase {
+public class DeptModel extends AdminPageBase {
 
     Grid Grid1;
     Button btnNew;

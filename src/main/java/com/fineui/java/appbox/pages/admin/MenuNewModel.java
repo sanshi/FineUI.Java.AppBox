@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Menu;
 import com.fineui.java.appbox.model.Power;
@@ -20,7 +20,7 @@ import java.util.Optional;
 /** 新增菜单（路由 {@code admin/menu-new}，弹窗内打开）：上级菜单从下拉树表格选择，浏览权限按权限名输入并校验存在。 */
 @FineUIPage("admin/menu-new")
 @CheckPower("CoreMenuNew")
-public class MenuNewModel extends AppBoxAdminPageBase {
+public class MenuNewModel extends AdminPageBase {
 
     DropDownBox ddbParent;
     Grid Grid1;

@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Role;
 import com.fineui.java.appbox.model.Title;
@@ -19,7 +19,7 @@ import java.util.List;
 /** 查看用户信息（路由 {@code admin/user-view}，弹窗内打开）：只读表单，首屏按 {@code ?id} 加载。 */
 @FineUIPage("admin/user-view")
 @CheckPower("CoreUserView")
-public class UserViewModel extends AppBoxAdminPageBase {
+public class UserViewModel extends AdminPageBase {
 
     Label labEnabled;
     Label labRoles;

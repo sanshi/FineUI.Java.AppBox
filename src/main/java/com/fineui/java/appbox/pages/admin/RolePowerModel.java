@@ -1,9 +1,10 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import tools.jackson.databind.JsonNode;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
+import com.fineui.java.appbox.business.Json;
 import com.fineui.java.appbox.model.Power;
 import com.fineui.java.appbox.model.Role;
 import com.fineui.java.appbox.repository.PowerRepository;
@@ -28,7 +29,7 @@ import java.util.TreeMap;
  */
 @FineUIPage("admin/role-power")
 @CheckPower("CoreRolePowerView")
-public class RolePowerModel extends AppBoxAdminPageBase {
+public class RolePowerModel extends AdminPageBase {
 
     Grid Grid1;
     Grid Grid2;
@@ -145,7 +146,7 @@ public class RolePowerModel extends AppBoxAdminPageBase {
         if (roleId == null) {
             return;
         }
-        JsonNode args = parseJson(e.getArgument());
+        JsonNode args = Json.parse(e.getArgument());
         List<Integer> powerIds = toIntList(args.get("powerIDs"));
         Role role = roleRepository.findById(roleId).orElse(null);
         if (role == null) {

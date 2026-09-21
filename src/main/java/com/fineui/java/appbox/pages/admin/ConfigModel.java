@@ -1,9 +1,9 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import tools.jackson.databind.JsonNode;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
+import com.fineui.java.appbox.business.Json;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
 import com.fineui.java.core.controls.Button;
@@ -13,17 +13,11 @@ import com.fineui.java.core.controls.TextArea;
 /** 系统配置（路由 {@code admin/config}）：表格默认每页条数、帮助下拉菜单（JSON 数组）。保存后整站刷新以应用新配置。 */
 @FineUIPage("admin/config")
 @CheckPower("CoreConfigView")
-public class ConfigModel extends AppBoxAdminPageBase {
+public class ConfigModel extends AdminPageBase {
 
     DropDownList ddlPageSize;
     TextArea tbxHelpList;
     Button btnSave;
-
-    private final ObjectMapper objectMapper;
-
-    public ConfigModel(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     public void Page_Load(Object sender, EventArgs e) {
         if (!isPostBack()) {
@@ -40,7 +34,7 @@ public class ConfigModel extends AppBoxAdminPageBase {
         }
         String helpList = tbxHelpList.getValue().trim();
         try {
-            JsonNode node = objectMapper.readTree(helpList);
+            JsonNode node = Json.parse(helpList);
             if (node == null || !node.isArray()) {
                 throw new IllegalArgumentException("not a JSON array");
             }
@@ -61,7 +55,7 @@ public class ConfigModel extends AppBoxAdminPageBase {
             return "";
         }
         try {
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objectMapper.readTree(json));
+            return Json.encode(Json.parse(json));
         } catch (Exception ex) {
             return json;
         }

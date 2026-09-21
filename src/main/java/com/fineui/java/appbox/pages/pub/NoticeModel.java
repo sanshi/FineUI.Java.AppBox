@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.pub;
 
-import com.fineui.java.appbox.business.AppBoxPageBase;
+import com.fineui.java.appbox.business.PageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
@@ -21,7 +21,7 @@ import java.util.Locale;
  * 两件事因此成立：
  * <ul>
  *   <li>本类不标 {@code @CheckPower}——那个注解管的是「登录用户有没有这一页的权限」，与「要不要登录」无关；</li>
- *   <li>本类继承 {@link AppBoxPageBase} 而不是后台功能页基类，公开页不加当前用户水印。</li>
+ *   <li>本类继承 {@link PageBase} 而不是后台功能页基类，公开页不加当前用户水印。</li>
  * </ul>
  *
  * <p>页面里的搜索与翻页都是回发，能正常工作说明匿名会话下的回发通道是通的——放行的那条路径规则
@@ -30,7 +30,7 @@ import java.util.Locale;
  * <p>读当前用户必须判空：匿名访问时没有身份。本页据此在右上角显示不同的入口文字。
  */
 @FineUIPage("public/notice")
-public class NoticeModel extends AppBoxPageBase {
+public class NoticeModel extends PageBase {
 
     Grid Grid1;
     TwinTriggerBox ttbSearchTitle;

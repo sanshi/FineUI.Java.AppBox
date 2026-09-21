@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Title;
 import com.fineui.java.appbox.repository.TitleRepository;
@@ -12,7 +12,7 @@ import com.fineui.java.core.FineUIPage;
 /** 新增职称（路由 {@code admin/title-new}，弹窗内打开）。 */
 @FineUIPage("admin/title-new")
 @CheckPower("CoreTitleNew")
-public class TitleNewModel extends AppBoxAdminPageBase {
+public class TitleNewModel extends AdminPageBase {
 
     @BindProperty
     private Title title;

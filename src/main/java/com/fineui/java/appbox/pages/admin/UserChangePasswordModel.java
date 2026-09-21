@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.business.PasswordUtil;
 import com.fineui.java.appbox.model.User;
@@ -19,7 +19,7 @@ import com.fineui.java.core.controls.TextBox;
  */
 @FineUIPage("admin/user-change-password")
 @CheckPower("CoreUserChangePassword")
-public class UserChangePasswordModel extends AppBoxAdminPageBase {
+public class UserChangePasswordModel extends AdminPageBase {
 
     TextBox tbxPassword;
 

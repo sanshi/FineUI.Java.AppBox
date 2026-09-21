@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Role;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @FineUIPage("admin/role-user-new")
 @CheckPower("CoreRoleUserNew")
-public class RoleUserNewModel extends AppBoxAdminPageBase {
+public class RoleUserNewModel extends AdminPageBase {
 
     Grid Grid1;
     TwinTriggerBox ttbSearchMessage;

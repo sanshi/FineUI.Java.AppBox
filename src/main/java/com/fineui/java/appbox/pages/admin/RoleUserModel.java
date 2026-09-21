@@ -1,9 +1,10 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import tools.jackson.databind.JsonNode;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
+import com.fineui.java.appbox.business.Json;
 import com.fineui.java.appbox.model.Role;
 import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.RoleRepository;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 @FineUIPage("admin/role-user")
 @CheckPower("CoreRoleUserView")
-public class RoleUserModel extends AppBoxAdminPageBase {
+public class RoleUserModel extends AdminPageBase {
 
     Grid Grid1;
     Grid Grid2;
@@ -159,7 +160,7 @@ public class RoleUserModel extends AppBoxAdminPageBase {
 
     public void Page_CustomEvent(Object sender, CustomEventArgs e) {
         if ("Grid2_DeleteRows".equals(e.getEventName())) {
-            JsonNode args = parseJson(e.getArgument());
+            JsonNode args = Json.parse(e.getArgument());
             deleteRows(toIntList(args.get("rowIDs")));
         }
     }

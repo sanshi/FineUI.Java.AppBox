@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Power;
@@ -23,7 +23,7 @@ import java.util.List;
 /** 权限列表（路由 {@code admin/power}）：搜索 + 数据库分页排序 + 每页条数切换 + 行内编辑/删除（弹窗）。 */
 @FineUIPage("admin/power")
 @CheckPower("CorePowerView")
-public class PowerModel extends AppBoxAdminPageBase {
+public class PowerModel extends AdminPageBase {
 
     Grid Grid1;
     TwinTriggerBox ttbSearchMessage;

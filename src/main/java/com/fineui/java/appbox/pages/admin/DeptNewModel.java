@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Dept;
 import com.fineui.java.appbox.repository.DeptRepository;
@@ -14,7 +14,7 @@ import com.fineui.java.core.controls.Grid;
 /** 新增部门（路由 {@code admin/dept-new}，弹窗内打开）：上级部门从下拉树表格中选择。 */
 @FineUIPage("admin/dept-new")
 @CheckPower("CoreDeptNew")
-public class DeptNewModel extends AppBoxAdminPageBase {
+public class DeptNewModel extends AdminPageBase {
 
     DropDownBox ddbParent;
     Grid Grid1;

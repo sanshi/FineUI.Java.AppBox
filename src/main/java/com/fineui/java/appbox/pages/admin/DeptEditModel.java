@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Dept;
 import com.fineui.java.appbox.repository.DeptRepository;
@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @FineUIPage("admin/dept-edit")
 @CheckPower("CoreDeptEdit")
-public class DeptEditModel extends AppBoxAdminPageBase {
+public class DeptEditModel extends AdminPageBase {
 
     DropDownBox ddbParent;
     Grid Grid1;

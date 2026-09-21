@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.config;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AppBoxUser;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.RouteUtil;
@@ -22,7 +22,7 @@ import java.util.Locale;
  * <ul>
  *   <li>读 {@code Theme} cookie：是内置主题名则切内置主题；否则若本应用 {@code static/res/themes/{名}/theme.css} 存在，
  *       按自定义主题输出该样式表；cookie 为空或都不是则用 {@code application.properties} 的全局默认；</li>
- *   <li>后台功能页（继承 {@link AppBoxAdminPageBase}）为已登录用户加页面水印「角色名（用户名）」。</li>
+ *   <li>后台功能页（继承 {@link AdminPageBase}）为已登录用户加页面水印「角色名（用户名）」。</li>
  * </ul>
  */
 @Component
@@ -73,7 +73,7 @@ public class AppPageManagerInitializer implements FineUIPageManagerInitializer {
 
     private boolean isAdminPage(HttpServletRequest request) {
         Class<?> pageClass = registry.pageClass(RouteUtil.routeOf(request, homeRoute));
-        return pageClass != null && AppBoxAdminPageBase.class.isAssignableFrom(pageClass);
+        return pageClass != null && AdminPageBase.class.isAssignableFrom(pageClass);
     }
 
     private static String cookie(HttpServletRequest request, String name) {

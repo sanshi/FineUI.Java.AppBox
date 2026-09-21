@@ -1,6 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.appbox.business.AppBoxAdminPageBase;
+import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Power;
@@ -13,7 +13,7 @@ import com.fineui.java.core.FineUIPage;
 /** 新增权限（路由 {@code admin/power-new}，弹窗内打开）。 */
 @FineUIPage("admin/power-new")
 @CheckPower("CorePowerNew")
-public class PowerNewModel extends AppBoxAdminPageBase {
+public class PowerNewModel extends AdminPageBase {
 
     @BindProperty
     private Power power;
