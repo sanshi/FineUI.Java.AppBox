@@ -19,6 +19,8 @@ Thumbs.db
 # ---- 端到端冒烟脚本的依赖与截图 ----
 e2e/node_modules/
 e2e/*.png
+# 冒烟脚本的依赖锁文件：本仓不入库（与其它 Java 公开仓一致），避免每次 npm install 冒出一个未跟踪文件
+e2e/package-lock.json
 
 # FineUI 公共仓库本地文件
 [Bb]in/
