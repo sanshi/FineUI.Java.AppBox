@@ -18,6 +18,8 @@
         <th:block layout:fragment="body"></th:block>
         <f:scripts></f:scripts>
         <script type="text/javascript" th:src="@{/res/js/common.js}"></script>
+        <!--/* AppBox 专属脚本，与 common.js 同层：这些回调在 iframe 子页里也会被调用 */-->
+        <script type="text/javascript" th:src="@{/res/js/appbox.js}"></script>
         <th:block layout:fragment="script"></th:block>
     </body>
 
