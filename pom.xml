@@ -15,14 +15,14 @@
 
     <groupId>com.fineui</groupId>
     <artifactId>fineui-java-appbox</artifactId>
-    <version>16.0.0-beta.3</version>
+    <version>16.0.0-rc.1</version>
     <name>FineUI.Java.AppBox</name>
     <description>FineUI.Java.AppBox 通用权限管理系统（Spring Boot + FineUI.Java + JPA + H2）</description>
 
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fineui.version>16.0.0-beta.3</fineui.version>
+        <fineui.version>16.0.0-rc.1</fineui.version>
         <!-- 覆盖 Boot 4.1.1 托管的 Tomcat 11.0.24：消掉 CVE-2026-65182 等已知漏洞（同 minor patch 级替换） -->
         <tomcat.version>11.0.26</tomcat.version>
     </properties>
