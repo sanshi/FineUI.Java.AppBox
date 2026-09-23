@@ -71,6 +71,8 @@ public class AppBoxInterceptor implements HandlerInterceptor {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setCharacterEncoding(StandardCharsets.UTF_8.name());
                 if (isGet) {
+                    // 权限提示页直接在拦截器里写出，后续 MVC 拦截器不会执行。
+                    response.setHeader("Content-Security-Policy", "script-src 'none';");
                     response.setContentType("text/html;charset=UTF-8");
                     response.getWriter().write("<!DOCTYPE html><html><head><meta charset=\"utf-8\"/></head><body>"
                             + CHECK_POWER_FAIL_PAGE_MESSAGE + "</body></html>");
