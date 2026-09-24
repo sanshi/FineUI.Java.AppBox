@@ -93,12 +93,6 @@ src/main/resources/
 4. **端口被占用**：改 `application.properties` 的 `server.port`。
 5. **H2 控制台报 `Database "C:/Users/xxx/test" not found`**：没替换表单里预填的默认 JDBC URL，见上文「运行」里的 H2 控制台说明。
 
-## 端到端测试
-
-应用的 Playwright 用例由 FineUI 开发工作区统一维护和运行，覆盖登录、管理页面、角色与用户增删改、
-权限保存、安全校验和弹窗标题。统一入口会准备独立 H2 数据库、构建当前源码、启动站点并生成汇总报告；
-本公开仓库不再附带需要手工启动站点的 `e2e/` 脚本。
-
 ## 发布历史
 
 各版本的更新内容见 [CHANGELOG.md](CHANGELOG.md)。
