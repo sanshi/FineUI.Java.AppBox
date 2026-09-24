@@ -2,12 +2,14 @@ package com.fineui.java.appbox.business;
 
 import com.fineui.java.appbox.model.Online;
 import com.fineui.java.appbox.repository.OnlineRepository;
+import com.fineui.java.appbox.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 在线用户统计：登录时登记一条在线记录（IP + 登录时间），之后每次请求刷新「最后操作时间」，
@@ -23,16 +25,28 @@ public class OnlineService {
     private static final int UPDATE_INTERVAL_MINUTES = 5;
 
     private final OnlineRepository onlineRepository;
+    private final UserRepository userRepository;
 
-    public OnlineService(OnlineRepository onlineRepository) {
+    public OnlineService(OnlineRepository onlineRepository, UserRepository userRepository) {
         this.onlineRepository = onlineRepository;
+        this.userRepository = userRepository;
     }
 
     /** 登录成功：登记（或刷新）该用户的在线记录。 */
     @Transactional
     public void register(int userId, String ipAddress, HttpSession session) {
+        // 锁住用户行直到事务提交，防止两个新会话都查不到在线记录后分别插入。
+        userRepository.findByIdForUpdate(userId)
+                .orElseThrow(() -> new IllegalArgumentException("用户不存在：" + userId));
+
+        List<Online> records = onlineRepository.findAllByUserIdOrderByIdAsc(userId);
+        Online online = records.isEmpty() ? new Online() : records.get(0);
+        // 旧版在并发登录时可能留下重复记录；保留最早的一条并清理其余记录。
+        if (records.size() > 1) {
+            onlineRepository.deleteAll(records.subList(1, records.size()));
+        }
+
         LocalDateTime now = LocalDateTime.now();
-        Online online = onlineRepository.findByUserId(userId).orElseGet(Online::new);
         online.setUserId(userId);
         online.setIpAddress(ipAddress);
         online.setLoginTime(now);
@@ -51,7 +65,7 @@ public class OnlineService {
             return;
         }
         session.setAttribute(SK_ONLINE_UPDATE_TIME, now);
-        onlineRepository.findByUserId(userId).ifPresent(online -> {
+        onlineRepository.findAllByUserIdOrderByIdAsc(userId).stream().findFirst().ifPresent(online -> {
             online.setUpdateTime(now);
             onlineRepository.save(online);
         });

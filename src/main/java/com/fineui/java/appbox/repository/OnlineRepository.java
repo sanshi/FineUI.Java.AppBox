@@ -5,11 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 public interface OnlineRepository extends JpaRepository<Online, Integer>, JpaSpecificationExecutor<Online> {
 
-    Optional<Online> findByUserId(Integer userId);
+    List<Online> findAllByUserIdOrderByIdAsc(Integer userId);
 
     long countByUpdateTimeAfter(LocalDateTime time);
 }

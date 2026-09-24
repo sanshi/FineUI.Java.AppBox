@@ -93,20 +93,11 @@ src/main/resources/
 4. **端口被占用**：改 `application.properties` 的 `server.port`。
 5. **H2 控制台报 `Database "C:/Users/xxx/test" not found`**：没替换表单里预填的默认 JDBC URL，见上文「运行」里的 H2 控制台说明。
 
-## 端到端冒烟（可选）
+## 端到端测试
 
-`e2e/` 下是两个 Playwright 脚本：`smoke.js`（登录 → 主框架 → 逐个打开全部管理页，收集控制台/HTTP 错误）和
-`crud.js`（角色增删改、用户增删改、角色权限保存、改密校验）。应用跑起来后：
-
-```bash
-cd e2e
-npm install
-npx playwright install chromium
-npm run smoke
-npm run crud
-```
-
-可用环境变量 `BASE`（默认 `http://127.0.0.1:8082`）指向别的地址，`OUT` 指定截图输出目录。
+应用的 Playwright 用例由 FineUI 开发工作区统一维护和运行，覆盖登录、管理页面、角色与用户增删改、
+权限保存、安全校验和弹窗标题。统一入口会准备独立 H2 数据库、构建当前源码、启动站点并生成汇总报告；
+本公开仓库不再附带需要手工启动站点的 `e2e/` 脚本。
 
 ## 发布历史
 
