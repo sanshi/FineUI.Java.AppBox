@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Dept;
@@ -68,11 +69,11 @@ public class DeptModel extends AdminPageBase {
                 return;
             }
             if (userRepository.countByDeptId(rowId) > 0) {
-                showAlertInTop("删除失败！需要先清空属于此部门的用户！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("删除失败！需要先清空属于此部门的用户！", "", MessageBoxIcon.Warning);
                 return;
             }
             if (!deptRepository.findByParentIdOrderBySortIndexAsc(rowId).isEmpty()) {
-                showAlertInTop("删除失败！请先删除子部门！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("删除失败！请先删除子部门！", "", MessageBoxIcon.Warning);
                 return;
             }
             deptRepository.deleteById(rowId);

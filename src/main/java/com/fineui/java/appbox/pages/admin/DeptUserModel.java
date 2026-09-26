@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import tools.jackson.databind.JsonNode;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
@@ -66,7 +67,7 @@ public class DeptUserModel extends AdminPageBase {
 
             List<Dept> list = loadGrid1Data();
             if (list.isEmpty()) {
-                showAlert("请先添加部门！");
+                Alert.show("请先添加部门！");
                 return;
             }
             Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });

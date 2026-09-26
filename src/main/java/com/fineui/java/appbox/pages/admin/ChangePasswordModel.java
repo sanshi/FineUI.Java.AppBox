@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.PasswordUtil;
 import com.fineui.java.appbox.model.User;
@@ -46,6 +47,6 @@ public class ChangePasswordModel extends AdminPageBase {
         }
         user.setPassword(PasswordUtil.createDbPassword(newPass));
         userRepository.save(user);
-        showAlertInTop("修改密码成功！", "", MessageBoxIcon.Information);
+        Alert.showInTop("修改密码成功！", "", MessageBoxIcon.Information);
     }
 }

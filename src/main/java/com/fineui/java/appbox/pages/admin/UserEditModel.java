@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
@@ -124,11 +125,11 @@ public class UserEditModel extends AdminPageBase {
         // 主键随状态往返、客户端可篡改：回发路径没有 Page_Get，这里再判一次
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
-            showAlert("该用户不存在或已被删除！");
+            Alert.show("该用户不存在或已被删除！");
             return;
         }
         if ("admin".equals(user.getName()) && !"admin".equals(getIdentityName())) {
-            showAlert("你无权编辑超级管理员！");
+            Alert.show("你无权编辑超级管理员！");
             return;
         }
 

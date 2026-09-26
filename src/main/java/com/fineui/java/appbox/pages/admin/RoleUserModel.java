@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import tools.jackson.databind.JsonNode;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
@@ -67,7 +68,7 @@ public class RoleUserModel extends AdminPageBase {
 
             List<Role> list = loadGrid1Data();
             if (list.isEmpty()) {
-                showAlert("请先添加角色！");
+                Alert.show("请先添加角色！");
                 return;
             }
             Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });

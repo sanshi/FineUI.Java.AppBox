@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
@@ -113,11 +114,11 @@ public class PowerModel extends AdminPageBase {
                 return;
             }
             if (menuRepository.countByViewPowerId(rowId) > 0) {
-                showAlertInTop("删除失败！需要先清空引用此权限的菜单！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("删除失败！需要先清空引用此权限的菜单！", "", MessageBoxIcon.Warning);
                 return;
             }
             if (roleRepository.countByPowersId(rowId) > 0) {
-                showAlertInTop("删除失败！需要先清空使用此权限的角色！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("删除失败！需要先清空使用此权限的角色！", "", MessageBoxIcon.Warning);
                 return;
             }
             powerRepository.deleteById(rowId);

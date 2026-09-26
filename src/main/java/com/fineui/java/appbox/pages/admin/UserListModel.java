@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import tools.jackson.databind.JsonNode;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
@@ -162,7 +163,7 @@ public class UserListModel extends AdminPageBase {
             // 列表里看不到 admin，但回传的主键不可信：先整体校验，确认没有 admin 再改值
             for (User user : toUpdate) {
                 if ("admin".equals(user.getName())) {
-                    showAlertInTop("不能修改超级管理员（admin）的启用状态！", "", MessageBoxIcon.Warning);
+                    Alert.showInTop("不能修改超级管理员（admin）的启用状态！", "", MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -182,7 +183,7 @@ public class UserListModel extends AdminPageBase {
         List<User> toDelete = userRepository.findAllById(rowIds);
         for (User user : toDelete) {
             if ("admin".equals(user.getName())) {
-                showAlertInTop("不能删除超级管理员（admin）！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("不能删除超级管理员（admin）！", "", MessageBoxIcon.Warning);
                 return;
             }
         }

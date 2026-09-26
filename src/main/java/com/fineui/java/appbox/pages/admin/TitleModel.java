@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Title;
@@ -108,7 +109,7 @@ public class TitleModel extends AdminPageBase {
                 return;
             }
             if (userRepository.countByTitlesId(rowId) > 0) {
-                showAlertInTop("删除失败！需要先清空属于此职称的用户！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("删除失败！需要先清空属于此职称的用户！", "", MessageBoxIcon.Warning);
                 return;
             }
             titleRepository.deleteById(rowId);

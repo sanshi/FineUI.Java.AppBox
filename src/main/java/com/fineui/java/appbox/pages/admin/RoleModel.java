@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
@@ -109,7 +110,7 @@ public class RoleModel extends AdminPageBase {
                 return;
             }
             if (userRepository.countByRolesId(rowId) > 0) {
-                showAlertInTop("删除失败！需要先清空属于此角色的用户！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("删除失败！需要先清空属于此角色的用户！", "", MessageBoxIcon.Warning);
                 return;
             }
             roleRepository.deleteById(rowId);

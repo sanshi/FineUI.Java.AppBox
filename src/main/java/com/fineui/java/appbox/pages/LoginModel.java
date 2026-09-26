@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.PageBase;
 import com.fineui.java.appbox.business.PasswordUtil;
 import com.fineui.java.appbox.model.User;
@@ -40,12 +41,12 @@ public class LoginModel extends PageBase {
 
         Optional<User> found = userRepository.findByName(userName);
         if (found.isEmpty() || !PasswordUtil.comparePasswords(found.get().getPassword(), password)) {
-            showAlert("用户名或密码错误！");
+            Alert.show("用户名或密码错误！");
             return;
         }
         User user = found.get();
         if (!user.isEnabled()) {
-            showAlert("用户未启用，请联系管理员！");
+            Alert.show("用户未启用，请联系管理员！");
             return;
         }
 

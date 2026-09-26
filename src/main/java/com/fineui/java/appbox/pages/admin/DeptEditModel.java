@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Dept;
@@ -118,13 +119,13 @@ public class DeptEditModel extends AdminPageBase {
         }
         Dept stored = deptRepository.findById(deptId).orElse(null);
         if (stored == null) {
-            showAlert("该部门不存在或已被删除！");
+            Alert.show("该部门不存在或已被删除！");
             return;
         }
         String parentValue = ddbParent.getValue();
         Integer parentId = intOrNull(parentValue);
         if (parentId != null && isSelfOrDescendant(parentId)) {
-            showAlert("上级部门不能是本部门或其下级部门！");
+            Alert.show("上级部门不能是本部门或其下级部门！");
             return;
         }
         stored.setName(dept.getName());

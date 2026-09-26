@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Menu;
@@ -55,7 +56,7 @@ public class MenuNewModel extends AdminPageBase {
             return;
         }
         if (!isSafeUrl(menu.getNavigateUrl()) || !isSafeIconUrl(menu.getImageUrl())) {
-            showAlert("链接与图标只能填站内路径（以 / 开头）或 http(s) 地址！");
+            Alert.show("链接与图标只能填站内路径（以 / 开头）或 http(s) 地址！");
             return;
         }
         // 上级菜单（未选择则为顶级菜单）
@@ -63,7 +64,7 @@ public class MenuNewModel extends AdminPageBase {
         menu.setParentId(intOrNull(parentValue));
         // 浏览权限：按权限名解析为主键，填了却不存在则提示
         if (!resolveViewPower(menu, tbxViewPower.getValue().trim(), powerRepository)) {
-            showAlert("浏览权限 " + tbxViewPower.getValue().trim() + " 不存在！");
+            Alert.show("浏览权限 " + tbxViewPower.getValue().trim() + " 不存在！");
             return;
         }
         menuRepository.save(menu);

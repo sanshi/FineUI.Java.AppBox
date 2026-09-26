@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Title;
@@ -46,7 +47,7 @@ public class TitleEditModel extends AdminPageBase {
         }
         Title stored = titleRepository.findById(titleId).orElse(null);
         if (stored == null) {
-            showAlert("该职称不存在或已被删除！");
+            Alert.show("该职称不存在或已被删除！");
             return;
         }
         stored.setName(title.getName());

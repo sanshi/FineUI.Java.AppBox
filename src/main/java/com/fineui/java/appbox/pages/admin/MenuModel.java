@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Menu;
@@ -63,7 +64,7 @@ public class MenuModel extends AdminPageBase {
                 return;
             }
             if (!menuRepository.findByParentIdOrderBySortIndexAsc(rowId).isEmpty()) {
-                showAlertInTop("删除失败！请先删除子菜单！", "", MessageBoxIcon.Warning);
+                Alert.showInTop("删除失败！请先删除子菜单！", "", MessageBoxIcon.Warning);
                 return;
             }
             menuRepository.deleteById(rowId);

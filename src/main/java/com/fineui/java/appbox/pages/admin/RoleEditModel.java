@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
@@ -47,7 +48,7 @@ public class RoleEditModel extends AdminPageBase {
         }
         Role stored = roleRepository.findById(roleId).orElse(null);
         if (stored == null) {
-            showAlert("该角色不存在或已被删除！");
+            Alert.show("该角色不存在或已被删除！");
             return;
         }
         stored.setName(role.getName());

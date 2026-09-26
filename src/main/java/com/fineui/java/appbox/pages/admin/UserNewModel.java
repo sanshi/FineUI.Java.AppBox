@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
@@ -75,11 +76,11 @@ public class UserNewModel extends AdminPageBase {
         }
         String password = currentUser.getPassword() == null ? "" : currentUser.getPassword().trim();
         if (password.isEmpty()) {
-            showAlert("密码不能为空！");
+            Alert.show("密码不能为空！");
             return;
         }
         if (userRepository.existsByName(currentUser.getName())) {
-            showAlert("用户 " + currentUser.getName() + " 已经存在！");
+            Alert.show("用户 " + currentUser.getName() + " 已经存在！");
             return;
         }
 

@@ -1,10 +1,13 @@
 package com.fineui.java.appbox.business;
 
-import tools.jackson.databind.JsonNode;
+import com.fineui.java.core.Alert;
 import com.fineui.java.core.FineUIPageBase;
 import com.fineui.java.core.GridCommandEventArgs;
-import com.fineui.java.core.controls.Grid;
 import com.fineui.java.core.MessageBoxIcon;
+import com.fineui.java.core.Notify;
+import com.fineui.java.core.controls.Grid;
+import com.fineui.java.core.enums.Position;
+import com.fineui.java.core.enums.Target;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import tools.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,29 @@ import java.util.function.Function;
  * JSON 解析不在本类：自定义事件的参数用 {@link Json#parse(String)} 直接读，别在基类再包一层。
  */
 public abstract class PageBase extends FineUIPageBase {
+
+    /** 用 AppBox 统一样式显示普通文本通知。 */
+    protected void showNotify(String message) {
+        showNotify(message, MessageBoxIcon.Information);
+    }
+
+    /** 用 AppBox 统一样式显示普通文本通知，并指定图标。 */
+    protected void showNotify(String message, MessageBoxIcon icon) {
+        showNotify(message, icon, Target.Top);
+    }
+
+    /** 用 AppBox 统一样式显示普通文本通知，并指定目标窗口。 */
+    protected void showNotify(String message, MessageBoxIcon icon, Target target) {
+        Notify notify = new Notify();
+        notify.setMessage(message);
+        notify.setMessageBoxIcon(icon);
+        notify.setTarget(target);
+        notify.setPositionX(Position.Center);
+        notify.setPositionY(Position.Top);
+        notify.setDisplayMilliseconds(3000);
+        notify.setShowHeader(false);
+        notify.show();
+    }
 
     @Autowired
     protected AuthService authService;
@@ -71,7 +98,7 @@ public abstract class PageBase extends FineUIPageBase {
 
     /** 回发事件里的操作级校验失败：在顶层窗口弹提示。 */
     protected void checkPowerFailWithAlert() {
-        showAlertInTop(AppBoxInterceptor.CHECK_POWER_FAIL_ACTION_MESSAGE, "", MessageBoxIcon.Warning);
+        Alert.showInTop(AppBoxInterceptor.CHECK_POWER_FAIL_ACTION_MESSAGE, "", MessageBoxIcon.Warning);
     }
 
     // —— 环境 ——

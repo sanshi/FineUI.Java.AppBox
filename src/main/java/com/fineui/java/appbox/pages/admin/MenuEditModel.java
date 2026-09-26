@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Menu;
@@ -124,22 +125,22 @@ public class MenuEditModel extends AdminPageBase {
         }
         Menu stored = menuRepository.findById(menuId).orElse(null);
         if (stored == null) {
-            showAlert("该菜单不存在或已被删除！");
+            Alert.show("该菜单不存在或已被删除！");
             return;
         }
         if (!isSafeUrl(menu.getNavigateUrl()) || !isSafeIconUrl(menu.getImageUrl())) {
-            showAlert("链接与图标只能填站内路径（以 / 开头）或 http(s) 地址！");
+            Alert.show("链接与图标只能填站内路径（以 / 开头）或 http(s) 地址！");
             return;
         }
         String parentValue = ddbParent.getValue();
         Integer parentId = intOrNull(parentValue);
         if (parentId != null && isSelfOrDescendant(parentId)) {
-            showAlert("上级菜单不能是本菜单或其下级菜单！");
+            Alert.show("上级菜单不能是本菜单或其下级菜单！");
             return;
         }
         String viewPowerName = tbxViewPower.getValue().trim();
         if (!MenuNewModel.resolveViewPower(stored, viewPowerName, powerRepository)) {
-            showAlert("浏览权限 " + viewPowerName + " 不存在！");
+            Alert.show("浏览权限 " + viewPowerName + " 不存在！");
             return;
         }
         stored.setName(menu.getName());

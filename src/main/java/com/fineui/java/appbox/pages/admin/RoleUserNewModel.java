@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
@@ -90,12 +91,12 @@ public class RoleUserNewModel extends AdminPageBase {
     public void btnSaveClose_Click(Object sender, EventArgs e) {
         String[] selectedRowIds = Grid1.getSelectedRowIdArray();
         if (selectedRowIds == null || selectedRowIds.length == 0) {
-            showAlert("请至少选择一项！");
+            Alert.show("请至少选择一项！");
             return;
         }
         Role role = roleRepository.findById(roleId).orElse(null);
         if (role == null) {
-            showAlert("该角色不存在或已被删除！");
+            Alert.show("该角色不存在或已被删除！");
             return;
         }
         List<Integer> userIds = new ArrayList<>();

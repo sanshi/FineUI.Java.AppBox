@@ -1,5 +1,6 @@
 package com.fineui.java.appbox.pages.admin;
 
+import com.fineui.java.core.Alert;
 import tools.jackson.databind.JsonNode;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
@@ -59,7 +60,7 @@ public class RolePowerModel extends AdminPageBase {
             btnGroupUpdate.setEnabled(checkPower("CoreRolePowerEdit"));
             List<Role> list = loadGrid1Data();
             if (list.isEmpty()) {
-                showAlert("请先添加角色！");
+                Alert.show("请先添加角色！");
                 return;
             }
             Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });
@@ -150,7 +151,7 @@ public class RolePowerModel extends AdminPageBase {
         List<Integer> powerIds = toIntList(args.get("powerIDs"));
         Role role = roleRepository.findById(roleId).orElse(null);
         if (role == null) {
-            showAlert("该角色不存在或已被删除！");
+            Alert.show("该角色不存在或已被删除！");
             return;
         }
         // 角色是权限关系的维护方：整体替换角色的权限集合
@@ -158,6 +159,6 @@ public class RolePowerModel extends AdminPageBase {
         role.getPowers().addAll(powerRepository.findAllById(powerIds));
         roleRepository.save(role);
         AuthService.invalidatePermissionCaches();   // 该角色下的在线用户下次请求即按新权限判定
-        showAlertInTop("当前角色的权限更新成功！", "", MessageBoxIcon.Information);
+        Alert.showInTop("当前角色的权限更新成功！", "", MessageBoxIcon.Information);
     }
 }
