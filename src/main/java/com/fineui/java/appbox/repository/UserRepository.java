@@ -9,11 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
+import java.util.List;
 
 /** 用户数据访问：列表页多条件组合查询走 {@link JpaSpecificationExecutor}（搜索词 + 启用状态可叠加）。 */
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
     Optional<User> findByName(String name);
+
+    /** 直接查询当前角色的权限名，避免在请求边界外访问延迟加载的角色和权限集合。 */
+    @Query("select distinct p.name from User u join u.roles r join r.powers p where u.id = :userId")
+    List<String> findPowerNamesByUserId(@Param("userId") Integer userId);
 
     /** 同一用户的并发登录先锁定用户行，避免同时写入多条在线记录。 */
     @Lock(LockModeType.PESSIMISTIC_WRITE)

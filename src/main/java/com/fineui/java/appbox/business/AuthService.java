@@ -171,16 +171,8 @@ public class AuthService {
                 powerNames.add(power.getName());
             }
         } else {
-            // 按用户主键重查角色，而不是用登录快照里的 roleIds——管理员改了某人的角色后，
-            // 其在线会话下次解析权限就能拿到新角色集合（配合版本号让缓存失效）
-            List<Role> roles = userRepository.findById(user.getId()).map(User::getRoles).orElse(List.of());
-            for (Role role : roles) {
-                for (Power power : role.getPowers()) {
-                    if (!powerNames.contains(power.getName())) {
-                        powerNames.add(power.getName());
-                    }
-                }
-            }
+            // 每次缓存失效后按用户主键查询当前权限，管理员改动角色后在线会话即可取到新结果。
+            powerNames.addAll(userRepository.findPowerNamesByUserId(user.getId()));
         }
         session.setAttribute(SK_USER_POWER_LIST, new ArrayList<>(powerNames));
         session.setAttribute(SK_USER_POWER_VERSION, PERMISSION_VERSION.get());
