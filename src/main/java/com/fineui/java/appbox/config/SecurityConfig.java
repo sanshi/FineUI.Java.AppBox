@@ -41,7 +41,7 @@ public class SecurityConfig {
                                                    CsrfTokenRepository fineUICsrfTokenRepository) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/res/**", "/F/**",
+                        .requestMatchers("/login", "/res/**", "/FineUI/**",
                                 "/help/**", "/favicon.ico", "/error").permitAll()
                         // 公开页：/public/ 下的页面一律无需登录，新增一个公开页只要把路由起在这个前缀下，本文件不用再改。
                         // 这一条同时覆盖首屏 GET 与回发 POST——回发请求发往页面自身的地址，所以匿名会话里搜索、翻页都能用。

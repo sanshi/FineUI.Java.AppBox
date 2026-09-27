@@ -19,6 +19,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(appBoxInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/res/**", "/F/**", "/help/**", "/error", "/h2-console/**", "/favicon.ico");
+                .excludePathPatterns("/res/**", "/FineUI/**", "/help/**", "/error", "/h2-console/**", "/favicon.ico");
     }
 }

@@ -16,7 +16,7 @@ FineUI.Java.AppBox 是一套可直接运行、可作为项目起点的后台权�
 
 项目文件已声明从公共软件包仓库获取的 Maven 包 `com.fineui:fineui-java`。正常联网构建时，包管理器会自动还原依赖。
 
-前端运行时（`/F/FineUI.js`、主题、语言包）已内嵌在 jar 里，无需单独部署静态资源。
+前端运行时（`/FineUI/FineUI.js`、主题、语言包）已内嵌在 jar 里，无需单独部署静态资源。
 
 FineUI 页面默认开启严格脚本 CSP：只允许同源脚本文件和当前请求授权的模板脚本，不允许原生事件属性或字符串代码执行。`f:` 模板中的普通 `<script>` 由 FineUI.Java 自动加 nonce；升级 `fineui.version` 时须选用包含自动 nonce 处理器的版本。静态帮助页和普通错误响应不在此策略范围内。计算器和万年历的 HTML 与 JS 分文件维护，这是页面代码组织约定，不依赖 CSP 响应头。
 
@@ -88,7 +88,7 @@ src/main/resources/
 ## 常见问题
 
 1. **`Could not find artifact com.fineui:fineui-java`**：先检查 Maven 网络、代理与中央仓库镜像。
-2. **页面空白、`/F/FineUI.js` 404**：确认依赖已经成功解析；也请确认 `application.properties` 里没有把资源指向别处。
+2. **页面空白、`/FineUI/FineUI.js` 404**：确认依赖已经成功解析；也请确认 `application.properties` 里没有把资源指向别处。
 3. **登录后页面右上角出现「无效授权」角标**：说明本机 `~/.m2` 里装的是企业版库而非社区版；社区版无授权提示。
 4. **端口被占用**：改 `application.properties` 的 `server.port`。
 5. **H2 控制台报 `Database "C:/Users/xxx/test" not found`**：没替换表单里预填的默认 JDBC URL，见上文「运行」里的 H2 控制台说明。
