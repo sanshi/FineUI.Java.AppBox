@@ -14,7 +14,7 @@ FineUI.Java.AppBox 是一套可直接运行、可作为项目起点的后台权�
 
 ## 依赖方式
 
-项目文件已声明从公共软件包仓库获取的 Maven 包 `com.fineui:fineui-java`。正常联网构建时，包管理器会自动还原依赖；仓库不包含 FineUI.Core.dll、FineUI.Pro.dll、fineui-java.jar，也不包含 FineUI 框架源码。
+项目文件已声明从公共软件包仓库获取的 Maven 包 `com.fineui:fineui-java`。正常联网构建时，包管理器会自动还原依赖。
 
 前端运行时（`/F/FineUI.js`、主题、语言包）已内嵌在 jar 里，无需单独部署静态资源。
 
