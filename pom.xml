@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- 继承 spring-boot-starter-parent 拿依赖版本管理。应用工程直接跑在 FineUI.Java 支持区间的
-         上沿（Boot 4.1.x）；tomcat.version 覆盖托管值 11.0.24，消掉 CVE-2026-65182 等已知漏洞。 -->
+    <!-- 继承 spring-boot-starter-parent 拿依赖版本管理。应用工程当前使用 Boot 4.1.1，
+         用于验证库在较新版本上的运行；tomcat.version 覆盖托管值 11.0.24，消掉 CVE-2026-65182 等已知漏洞。 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
