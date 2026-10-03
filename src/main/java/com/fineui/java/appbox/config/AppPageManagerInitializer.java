@@ -50,7 +50,7 @@ public class AppPageManagerInitializer implements FineUIPageManagerInitializer {
             if (!roleNames.isEmpty()) {
                 watermarkText = roleNames.get(0) + "（" + watermarkText + "）";
             }
-            pm.set("watermark", true).set("watermarkText", watermarkText).set("watermarkFontSize", 16);
+            pm.watermark(true).watermarkText(watermarkText).watermarkFontSize(16);
         }
     }
 
