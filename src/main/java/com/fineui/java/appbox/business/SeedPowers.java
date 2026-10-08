@@ -17,7 +17,7 @@ final class SeedPowers {
         add(list, "CoreUserNew", "新增用户", "CoreUser");
         add(list, "CoreUserEdit", "编辑用户", "CoreUser");
         add(list, "CoreUserDelete", "删除用户", "CoreUser");
-        add(list, "CoreUserChangePassword", "修改用户登陆密码", "CoreUser");
+        add(list, "CoreUserChangePassword", "修改用户登录密码", "CoreUser");
         add(list, "CoreRoleView", "浏览角色列表", "CoreRole");
         add(list, "CoreRoleNew", "新增角色", "CoreRole");
         add(list, "CoreRoleEdit", "编辑角色", "CoreRole");
