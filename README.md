@@ -7,6 +7,12 @@ FineUI.Java.AppBox 是一套可直接运行、可作为项目起点的后台权�
 - 默认管理员：**admin / admin**（拥有全部权限）；另有约 200 个演示账号 `user0`、`user2`、…（用户名即密码）。
 - 页面：登录 → 主框架（左侧菜单树按当前用户权限生成，右侧选项卡工作区）→ 各管理页在选项卡内以 IFrame 打开。
 
+<!-- fineui-community:start -->
+## 加入 FineUI 社区
+
+欢迎[加入 FineUI 社区](https://fineui.com/fans/)，一站式获取社区版、完整示例、空项目、快速入门和 AppBox 等配套资源，及时了解版本更新，交流控件用法与项目实践。**FineUI.Core、FineUI.Pro 与 FineUI.Java 社区版均可永久免费商用**，欢迎一起分享经验、讨论问题。
+<!-- fineui-community:end -->
+
 ## 环境要求
 
 - JDK 17 或更高（21 亦可）；Maven 3.6+。命令行 `java -version` / `mvn -version` 能正确输出即可。
