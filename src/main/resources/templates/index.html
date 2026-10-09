@@ -6,16 +6,17 @@
         <link th:href="@{/res/css/index.css}" rel="stylesheet" />
         <link th:href="@{/res/css/appbox.css}" rel="stylesheet" />
         <link th:href="@{/res/css/mobileview.css}" rel="stylesheet" />
-    
-    <style type="text/css">
-        /* 侧边栏宽度：res/js/index.js 从这两个变量读初始宽度与折叠后的微型宽度，
+
+        <style type="text/css">
+            /* 侧边栏宽度：res/js/index.js 从这两个变量读初始宽度与折叠后的微型宽度，
            必须与侧栏区域上的 Width 属性保持一致（两处都改，否则初始宽度和拖动宽度会打架）。 */
-        :root {
-            --sidebar-width: 320px;
-            --sidebar-minimode-width: 70px;
-        }
-    </style>
-</head>
+            :root {
+                --sidebar-width: 320px;
+                --sidebar-minimode-width: 70px;
+            }
+
+        </style>
+    </head>
 
     <body>
         <th:block layout:fragment="body">
@@ -77,7 +78,7 @@
                                         <f:button css-class="icontopaction" id="btnThemeSelect" text="主题仓库" icon-align="Top" icon-font="_Skin"
                                             enable-default-state="false" enable-default-corner="false" tab-index="-1" click-handler="onThemeSelectClick">
                                         </f:button>
-                                        <f:button id="btnUserName" css-class="userpicaction" icon-url="/res/images/my_face_80.jpg" icon-align="Left"
+                                        <f:button id="btnUserName" css-class="userpicaction" icon-url="/res/images/my-face-80.jpg" icon-align="Left"
                                             show-menu-icon="true" enable-default-state="false" enable-default-corner="false">
                                             <f:menu>
                                                 <f:menu-button id="btnSignOut" text="安全退出" icon-font="_SignOut" confirm-text="确定退出系统？"
