@@ -21,6 +21,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,9 +33,9 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class AuthService {
 
-    /** Session 键：当前用户拥有的权限名列表缓存。 */
+    /** Session 键：当前用户的权限缓存，版本号与不可变权限列表作为一个对象保存。 */
     private static final String SK_USER_POWER_LIST = "UserPowerList";
-    /** Session 键：上述缓存对应的权限版本号（角色权限 / 用户角色一改就升版本，让各会话的缓存失效）。 */
+    /** 历史缓存的版本键：新缓存不再使用，登录时仍清理，避免旧会话残留。 */
     private static final String SK_USER_POWER_VERSION = "UserPowerVersion";
     /** Session 键：上次复核「用户仍存在且启用」的时间戳。 */
     private static final String SK_ACTIVE_CHECKED_AT = "ActiveCheckedAt";
@@ -49,6 +50,18 @@ public class AuthService {
 
     /** 全局权限版本号：角色的权限集合、用户的角色集合发生变化时递增，各会话据此丢弃过期的权限缓存。 */
     private static final AtomicLong PERMISSION_VERSION = new AtomicLong(1);
+
+    /**
+     * 把权限和对应版本一起保存，避免并发请求把旧权限列表与新版本号拼在一起。
+     * 列表复制为不可变快照，调用方不能通过增删返回值改变会话里的权限。
+     */
+    private record PermissionCache(long version, List<String> powers) implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        PermissionCache {
+            powers = List.copyOf(powers);
+        }
+    }
 
     private final SecurityContextRepository securityContextRepository;
     private final RoleRepository roleRepository;
@@ -153,18 +166,21 @@ public class AuthService {
     }
 
     /** 当前用户拥有的全部权限名（Session 缓存；超级管理员拥有全部权限）。 */
-    @SuppressWarnings("unchecked")
     public List<String> getRolePowerNames() {
         AppBoxUser user = currentUser();
         if (user == null) {
             return List.of();
         }
         HttpSession session = currentRequest().getSession(true);
+
+        // 查询前记住版本：版本 1 的查询即使在撤权升到版本 2 后才返回，也只能缓存为版本 1。
+        // 下一请求发现版本不一致就会重查，不能在查询后给旧权限补上最新版本号。
+        long version = PERMISSION_VERSION.get();
         Object cached = session.getAttribute(SK_USER_POWER_LIST);
-        Object cachedVersion = session.getAttribute(SK_USER_POWER_VERSION);
-        if (cached instanceof List<?> list && Long.valueOf(PERMISSION_VERSION.get()).equals(cachedVersion)) {
-            return List.copyOf((List<String>) list);
+        if (cached instanceof PermissionCache cache && cache.version() == version) {
+            return cache.powers();
         }
+
         List<String> powerNames = new ArrayList<>();
         if (user.isAdmin()) {
             for (Power power : powerRepository.findAll()) {
@@ -174,9 +190,9 @@ public class AuthService {
             // 每次缓存失效后按用户主键查询当前权限，管理员改动角色后在线会话即可取到新结果。
             powerNames.addAll(userRepository.findPowerNamesByUserId(user.getId()));
         }
-        session.setAttribute(SK_USER_POWER_LIST, new ArrayList<>(powerNames));
-        session.setAttribute(SK_USER_POWER_VERSION, PERMISSION_VERSION.get());
-        return powerNames;
+        PermissionCache cache = new PermissionCache(version, powerNames);
+        session.setAttribute(SK_USER_POWER_LIST, cache);
+        return cache.powers();
     }
 
     /**
