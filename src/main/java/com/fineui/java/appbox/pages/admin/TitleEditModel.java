@@ -37,7 +37,7 @@ public class TitleEditModel extends AdminPageBase {
         titleId = getQueryInt("id", 0);
         title = titleRepository.findById(titleId).orElse(null);
         if (title == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideReference());
+            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
         }
     }
 

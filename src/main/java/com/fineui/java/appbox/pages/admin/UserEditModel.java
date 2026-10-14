@@ -68,10 +68,10 @@ public class UserEditModel extends AdminPageBase {
         userId = getQueryInt("id", 0);
         currentUser = userRepository.findById(userId).orElse(null);
         if (currentUser == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideReference());
+            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
         }
         if ("admin".equals(currentUser.getName()) && !"admin".equals(getIdentityName())) {
-            throw new AbortPageException("你无权编辑超级管理员！", ActiveWindow.hideReference());
+            throw new AbortPageException("你无权编辑超级管理员！", ActiveWindow.hideCommand());
         }
     }
 

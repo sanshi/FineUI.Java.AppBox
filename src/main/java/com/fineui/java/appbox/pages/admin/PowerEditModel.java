@@ -38,7 +38,7 @@ public class PowerEditModel extends AdminPageBase {
         powerId = getQueryInt("id", 0);
         power = powerRepository.findById(powerId).orElse(null);
         if (power == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideReference());
+            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
         }
     }
 

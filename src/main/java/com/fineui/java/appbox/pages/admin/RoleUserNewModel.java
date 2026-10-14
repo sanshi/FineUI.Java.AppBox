@@ -55,7 +55,7 @@ public class RoleUserNewModel extends AdminPageBase {
     public void Page_Get(Object sender, EventArgs e) {
         roleId = getQueryInt("roleID", 0);
         if (!roleRepository.existsById(roleId)) {
-            throw new AbortPageException("参数错误！", ActiveWindow.hideReference());
+            throw new AbortPageException("参数错误！", ActiveWindow.hideCommand());
         }
     }
 

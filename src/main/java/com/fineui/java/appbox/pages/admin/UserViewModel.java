@@ -43,10 +43,10 @@ public class UserViewModel extends AdminPageBase {
     public void Page_Get(Object sender, EventArgs e) {
         currentUser = userRepository.findById(getQueryInt("id", 0)).orElse(null);
         if (currentUser == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideReference());
+            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
         }
         if ("admin".equals(currentUser.getName()) && !"admin".equals(getIdentityName())) {
-            throw new AbortPageException("你无权编辑超级管理员！", ActiveWindow.hideReference());
+            throw new AbortPageException("你无权编辑超级管理员！", ActiveWindow.hideCommand());
         }
     }
 

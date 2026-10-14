@@ -32,7 +32,7 @@ public class NoticeDetailModel extends PageBase {
     public void Page_Get(Object sender, EventArgs e) {
         notice = NoticeData.find(getQueryInt("id", 0));
         if (notice == null) {
-            throw new AbortPageException("公告不存在或已撤回！", ActiveWindow.hideReference());
+            throw new AbortPageException("公告不存在或已撤回！", ActiveWindow.hideCommand());
         }
     }
 

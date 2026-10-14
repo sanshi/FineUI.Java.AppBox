@@ -54,7 +54,7 @@ public class TitleUserNewModel extends AdminPageBase {
     public void Page_Get(Object sender, EventArgs e) {
         titleId = getQueryInt("titleID", 0);
         if (!titleRepository.existsById(titleId)) {
-            throw new AbortPageException("参数错误！", ActiveWindow.hideReference());
+            throw new AbortPageException("参数错误！", ActiveWindow.hideCommand());
         }
     }
 

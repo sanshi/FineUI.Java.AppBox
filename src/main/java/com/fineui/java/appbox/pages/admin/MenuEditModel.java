@@ -56,7 +56,7 @@ public class MenuEditModel extends AdminPageBase {
         menuId = getQueryInt("id", 0);
         menu = menuRepository.findById(menuId).orElse(null);
         if (menu == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideReference());
+            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
         }
     }
 

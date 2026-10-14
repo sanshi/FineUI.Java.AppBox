@@ -53,7 +53,7 @@ public class DeptEditModel extends AdminPageBase {
         deptId = getQueryInt("id", 0);
         dept = deptRepository.findById(deptId).orElse(null);
         if (dept == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideReference());
+            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
         }
     }
 
