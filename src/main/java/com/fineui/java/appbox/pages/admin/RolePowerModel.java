@@ -111,7 +111,7 @@ public class RolePowerModel extends AdminPageBase {
                 powerIds.add(power.getId());
             }
         });
-        invokeClientFunction("updateRolePowers", powerIds);
+        invokeFunction("updateRolePowers", powerIds);
     }
 
     private Integer selectedRoleId() {

@@ -46,7 +46,7 @@ public class ConfigModel extends AdminPageBase {
         configService.setHelpList(helpList);
         configService.saveAll();
         // 整站刷新以应用新配置（页面脚本里定义）
-        invokeClientFunction("reloadTopWindow");
+        invokeFunction("reloadTopWindow");
     }
 
     /** 把配置里紧凑存放的 JSON 排版成多行，便于在文本域里编辑；不是合法 JSON 时原样返回。 */
