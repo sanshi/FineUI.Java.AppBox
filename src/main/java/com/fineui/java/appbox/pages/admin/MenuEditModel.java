@@ -8,7 +8,7 @@ import com.fineui.java.appbox.repository.MenuRepository;
 import com.fineui.java.appbox.repository.PowerRepository;
 import com.fineui.java.binding.BindProperty;
 import com.fineui.java.binding.HiddenProperty;
-import com.fineui.java.core.AbortPageException;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
@@ -56,7 +56,8 @@ public class MenuEditModel extends AdminPageBase {
         menuId = getQueryInt("id", 0);
         menu = menuRepository.findById(menuId).orElse(null);
         if (menu == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
+            PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
+            return;
         }
     }
 

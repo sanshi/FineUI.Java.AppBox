@@ -9,7 +9,7 @@ import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.RoleRepository;
 import com.fineui.java.appbox.repository.UserRepository;
 import com.fineui.java.binding.HiddenProperty;
-import com.fineui.java.core.AbortPageException;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
@@ -55,7 +55,8 @@ public class RoleUserNewModel extends AdminPageBase {
     public void Page_Get(Object sender, EventArgs e) {
         roleId = getQueryInt("roleID", 0);
         if (!roleRepository.existsById(roleId)) {
-            throw new AbortPageException("参数错误！", ActiveWindow.hideCommand());
+            PageContext.abortPage("参数错误！", ActiveWindow.hideCommand());
+            return;
         }
     }
 

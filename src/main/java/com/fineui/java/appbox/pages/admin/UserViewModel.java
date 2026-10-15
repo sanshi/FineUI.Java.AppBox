@@ -7,7 +7,7 @@ import com.fineui.java.appbox.model.Title;
 import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.UserRepository;
 import com.fineui.java.binding.BindProperty;
-import com.fineui.java.core.AbortPageException;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
@@ -43,10 +43,12 @@ public class UserViewModel extends AdminPageBase {
     public void Page_Get(Object sender, EventArgs e) {
         currentUser = userRepository.findById(getQueryInt("id", 0)).orElse(null);
         if (currentUser == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
+            PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
+            return;
         }
         if ("admin".equals(currentUser.getName()) && !"admin".equals(getIdentityName())) {
-            throw new AbortPageException("你无权编辑超级管理员！", ActiveWindow.hideCommand());
+            PageContext.abortPage("你无权编辑超级管理员！", ActiveWindow.hideCommand());
+            return;
         }
     }
 

@@ -7,7 +7,7 @@ import com.fineui.java.appbox.model.Dept;
 import com.fineui.java.appbox.repository.DeptRepository;
 import com.fineui.java.binding.BindProperty;
 import com.fineui.java.binding.HiddenProperty;
-import com.fineui.java.core.AbortPageException;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
@@ -53,7 +53,8 @@ public class DeptEditModel extends AdminPageBase {
         deptId = getQueryInt("id", 0);
         dept = deptRepository.findById(deptId).orElse(null);
         if (dept == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
+            PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
+            return;
         }
     }
 

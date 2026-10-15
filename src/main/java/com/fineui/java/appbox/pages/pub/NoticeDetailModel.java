@@ -1,7 +1,7 @@
 package com.fineui.java.appbox.pages.pub;
 
 import com.fineui.java.appbox.business.PageBase;
-import com.fineui.java.core.AbortPageException;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
@@ -32,7 +32,8 @@ public class NoticeDetailModel extends PageBase {
     public void Page_Get(Object sender, EventArgs e) {
         notice = NoticeData.find(getQueryInt("id", 0));
         if (notice == null) {
-            throw new AbortPageException("公告不存在或已撤回！", ActiveWindow.hideCommand());
+            PageContext.abortPage("公告不存在或已撤回！", ActiveWindow.hideCommand());
+            return;
         }
     }
 

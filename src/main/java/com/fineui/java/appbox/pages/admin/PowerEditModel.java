@@ -8,7 +8,7 @@ import com.fineui.java.appbox.model.Power;
 import com.fineui.java.appbox.repository.PowerRepository;
 import com.fineui.java.binding.BindProperty;
 import com.fineui.java.binding.HiddenProperty;
-import com.fineui.java.core.AbortPageException;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
@@ -38,7 +38,8 @@ public class PowerEditModel extends AdminPageBase {
         powerId = getQueryInt("id", 0);
         power = powerRepository.findById(powerId).orElse(null);
         if (power == null) {
-            throw new AbortPageException("无效参数！", ActiveWindow.hideCommand());
+            PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
+            return;
         }
     }
 
