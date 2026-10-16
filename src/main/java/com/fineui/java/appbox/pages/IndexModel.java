@@ -7,6 +7,7 @@ import com.fineui.java.appbox.model.Menu;
 import com.fineui.java.appbox.repository.MenuRepository;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.controls.Button;
 import com.fineui.java.core.controls.MenuButton;
 import com.fineui.java.core.controls.Tree;
@@ -160,6 +161,6 @@ public class IndexModel extends PageBase {
 
     public void btnSignOut_Click(Object sender, EventArgs e) {
         authService.logout();
-        redirect("/login");
+        PageContext.redirect("/login");
     }
 }

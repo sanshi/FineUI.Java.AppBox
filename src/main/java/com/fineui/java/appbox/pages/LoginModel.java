@@ -7,6 +7,7 @@ import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.UserRepository;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.controls.TextBox;
 import com.fineui.java.core.controls.Window;
 
@@ -52,6 +53,6 @@ public class LoginModel extends PageBase {
 
         // 登录成功：建立会话身份 + 登记在线记录，然后跳转到登录后首页
         authService.login(user);
-        redirect("/");
+        PageContext.redirect("/");
     }
 }

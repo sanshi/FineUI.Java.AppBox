@@ -6,6 +6,7 @@ import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.business.Json;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.controls.Button;
 import com.fineui.java.core.controls.DropDownList;
 import com.fineui.java.core.controls.TextArea;
@@ -46,7 +47,7 @@ public class ConfigModel extends AdminPageBase {
         configService.setHelpList(helpList);
         configService.saveAll();
         // 整站刷新以应用新配置（页面脚本里定义）
-        invokeFunction("reloadTopWindow");
+        PageContext.invokeFunction("reloadTopWindow");
     }
 
     /** 把配置里紧凑存放的 JSON 排版成多行，便于在文本域里编辑；不是合法 JSON 时原样返回。 */

@@ -13,6 +13,7 @@ import com.fineui.java.appbox.repository.RoleRepository;
 import com.fineui.java.core.CustomEventArgs;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
+import com.fineui.java.core.PageContext;
 import com.fineui.java.core.MessageBoxIcon;
 import com.fineui.java.core.controls.Button;
 import com.fineui.java.core.controls.Grid;
@@ -111,7 +112,7 @@ public class RolePowerModel extends AdminPageBase {
                 powerIds.add(power.getId());
             }
         });
-        invokeFunction("updateRolePowers", powerIds);
+        PageContext.invokeFunction("updateRolePowers", powerIds);
     }
 
     private Integer selectedRoleId() {
