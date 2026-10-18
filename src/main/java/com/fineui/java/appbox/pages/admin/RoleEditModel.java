@@ -35,7 +35,7 @@ public class RoleEditModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        roleId = getQueryInt("id", 0);
+        roleId = getQueryIntValue("id");
         storedRole = roleRepository.findById(roleId).orElse(null);
         if (storedRole == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());

@@ -41,7 +41,7 @@ public class UserViewModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        User viewedUser = userRepository.findById(getQueryInt("id", 0)).orElse(null);
+        User viewedUser = userRepository.findById(getQueryIntValue("id")).orElse(null);
         if (viewedUser == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
             return;

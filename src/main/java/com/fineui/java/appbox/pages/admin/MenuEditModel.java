@@ -54,7 +54,7 @@ public class MenuEditModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        menuId = getQueryInt("id", 0);
+        menuId = getQueryIntValue("id");
         storedMenu = menuRepository.findById(menuId).orElse(null);
         if (storedMenu == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());

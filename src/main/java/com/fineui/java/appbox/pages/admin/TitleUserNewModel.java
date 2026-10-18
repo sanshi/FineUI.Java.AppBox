@@ -50,7 +50,7 @@ public class TitleUserNewModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        titleId = getQueryInt("titleID", 0);
+        titleId = getQueryIntValue("titleID");
         if (!titleRepository.existsById(titleId)) {
             PageContext.abortPage("参数错误！", ActiveWindow.hideCommand());
             return;

@@ -35,7 +35,7 @@ public class PowerEditModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        powerId = getQueryInt("id", 0);
+        powerId = getQueryIntValue("id");
         storedPower = powerRepository.findById(powerId).orElse(null);
         if (storedPower == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());

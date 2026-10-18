@@ -51,7 +51,7 @@ public class DeptEditModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        deptId = getQueryInt("id", 0);
+        deptId = getQueryIntValue("id");
         storedDept = deptRepository.findById(deptId).orElse(null);
         if (storedDept == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());

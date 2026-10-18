@@ -64,7 +64,7 @@ public class UserEditModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        userId = getQueryInt("id", 0);
+        userId = getQueryIntValue("id");
         storedUser = userRepository.findById(userId).orElse(null);
         if (storedUser == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());

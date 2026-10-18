@@ -49,7 +49,7 @@ public class DeptUserNewModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        deptId = getQueryInt("deptID", 0);
+        deptId = getQueryIntValue("deptID");
         if (!deptRepository.existsById(deptId)) {
             PageContext.abortPage("参数错误！", ActiveWindow.hideCommand());
             return;

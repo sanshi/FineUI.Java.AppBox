@@ -30,7 +30,7 @@ public class NoticeDetailModel extends PageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        notice = NoticeData.find(getQueryInt("id", 0));
+        notice = NoticeData.find(getQueryIntValue("id"));
         if (notice == null) {
             PageContext.abortPage("公告不存在或已撤回！", ActiveWindow.hideCommand());
             return;

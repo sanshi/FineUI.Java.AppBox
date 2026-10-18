@@ -34,7 +34,7 @@ public class TitleEditModel extends AdminPageBase {
     }
 
     public void Page_Init(Object sender, EventArgs e) {
-        titleId = getQueryInt("id", 0);
+        titleId = getQueryIntValue("id");
         storedTitle = titleRepository.findById(titleId).orElse(null);
         if (storedTitle == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
