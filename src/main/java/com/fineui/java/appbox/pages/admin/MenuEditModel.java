@@ -7,7 +7,6 @@ import com.fineui.java.appbox.model.Menu;
 import com.fineui.java.appbox.repository.MenuRepository;
 import com.fineui.java.appbox.repository.PowerRepository;
 import com.fineui.java.binding.BindProperty;
-import com.fineui.java.binding.HiddenProperty;
 import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
@@ -32,11 +31,13 @@ public class MenuEditModel extends AdminPageBase {
     TextBox tbxViewPower;
     RadioButtonList rblIconList;
 
-    @HiddenProperty
     private int menuId;
 
     @BindProperty
     private Menu menu;
+
+    /** 本次按 URL 查询并校验的保存目标；不接受表单或隐藏字段决定主键。 */
+    private Menu storedMenu;
 
     public Menu getMenu() {
         return menu;
@@ -52,12 +53,15 @@ public class MenuEditModel extends AdminPageBase {
         this.powerRepository = powerRepository;
     }
 
-    public void Page_Get(Object sender, EventArgs e) {
+    public void Page_Init(Object sender, EventArgs e) {
         menuId = getQueryInt("id", 0);
-        menu = menuRepository.findById(menuId).orElse(null);
-        if (menu == null) {
+        storedMenu = menuRepository.findById(menuId).orElse(null);
+        if (storedMenu == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
             return;
+        }
+        if (!isPostBack()) {
+            menu = storedMenu;
         }
     }
 
@@ -124,11 +128,6 @@ public class MenuEditModel extends AdminPageBase {
         if (!getModelState().isValid()) {
             return;
         }
-        Menu stored = menuRepository.findById(menuId).orElse(null);
-        if (stored == null) {
-            Alert.show("该菜单不存在或已被删除！");
-            return;
-        }
         if (!isSafeUrl(menu.getNavigateUrl()) || !isSafeIconUrl(menu.getImageUrl())) {
             Alert.show("链接与图标只能填站内路径（以 / 开头）或 http(s) 地址！");
             return;
@@ -140,17 +139,17 @@ public class MenuEditModel extends AdminPageBase {
             return;
         }
         String viewPowerName = tbxViewPower.getValue().trim();
-        if (!MenuNewModel.resolveViewPower(stored, viewPowerName, powerRepository)) {
+        if (!MenuNewModel.resolveViewPower(storedMenu, viewPowerName, powerRepository)) {
             Alert.show("浏览权限 " + viewPowerName + " 不存在！");
             return;
         }
-        stored.setName(menu.getName());
-        stored.setSortIndex(menu.getSortIndex());
-        stored.setNavigateUrl(menu.getNavigateUrl());
-        stored.setImageUrl(menu.getImageUrl());
-        stored.setRemark(menu.getRemark());
-        stored.setParentId(parentId);
-        menuRepository.save(stored);
+        storedMenu.setName(menu.getName());
+        storedMenu.setSortIndex(menu.getSortIndex());
+        storedMenu.setNavigateUrl(menu.getNavigateUrl());
+        storedMenu.setImageUrl(menu.getImageUrl());
+        storedMenu.setRemark(menu.getRemark());
+        storedMenu.setParentId(parentId);
+        menuRepository.save(storedMenu);
         ActiveWindow.hidePostBack();
     }
 }

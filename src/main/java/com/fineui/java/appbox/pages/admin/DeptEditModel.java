@@ -6,7 +6,6 @@ import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Dept;
 import com.fineui.java.appbox.repository.DeptRepository;
 import com.fineui.java.binding.BindProperty;
-import com.fineui.java.binding.HiddenProperty;
 import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
@@ -21,7 +20,7 @@ import java.util.Map;
 
 /**
  * 编辑部门（路由 {@code admin/dept-edit}，弹窗内打开）。上级部门下拉树表格里，本部门及其全部下级不可选
- * （否则会把树挂成环）；保存走 read-first：按主键重读、只覆盖表单字段。
+ * （否则会把树挂成环）；保存时只覆盖本次查询实体中的表单字段。
  */
 @FineUIPage("admin/dept-edit")
 @CheckPower("CoreDeptEdit")
@@ -30,11 +29,13 @@ public class DeptEditModel extends AdminPageBase {
     DropDownBox ddbParent;
     Grid Grid1;
 
-    @HiddenProperty
     private int deptId;
 
     @BindProperty
     private Dept dept;
+
+    /** 本次按 URL 查询并校验的保存目标；不接受表单或隐藏字段决定主键。 */
+    private Dept storedDept;
 
     public Dept getDept() {
         return dept;
@@ -49,12 +50,15 @@ public class DeptEditModel extends AdminPageBase {
         this.deptRepository = deptRepository;
     }
 
-    public void Page_Get(Object sender, EventArgs e) {
+    public void Page_Init(Object sender, EventArgs e) {
         deptId = getQueryInt("id", 0);
-        dept = deptRepository.findById(deptId).orElse(null);
-        if (dept == null) {
+        storedDept = deptRepository.findById(deptId).orElse(null);
+        if (storedDept == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
             return;
+        }
+        if (!isPostBack()) {
+            dept = storedDept;
         }
     }
 
@@ -118,22 +122,17 @@ public class DeptEditModel extends AdminPageBase {
         if (!getModelState().isValid()) {
             return;
         }
-        Dept stored = deptRepository.findById(deptId).orElse(null);
-        if (stored == null) {
-            Alert.show("该部门不存在或已被删除！");
-            return;
-        }
         String parentValue = ddbParent.getValue();
         Integer parentId = intOrNull(parentValue);
         if (parentId != null && isSelfOrDescendant(parentId)) {
             Alert.show("上级部门不能是本部门或其下级部门！");
             return;
         }
-        stored.setName(dept.getName());
-        stored.setSortIndex(dept.getSortIndex());
-        stored.setRemark(dept.getRemark());
-        stored.setParentId(parentId);
-        deptRepository.save(stored);
+        storedDept.setName(dept.getName());
+        storedDept.setSortIndex(dept.getSortIndex());
+        storedDept.setRemark(dept.getRemark());
+        storedDept.setParentId(parentId);
+        deptRepository.save(storedDept);
         ActiveWindow.hidePostBack();
     }
 }

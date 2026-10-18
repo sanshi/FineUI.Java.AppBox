@@ -1,27 +1,27 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Title;
 import com.fineui.java.appbox.repository.TitleRepository;
 import com.fineui.java.binding.BindProperty;
-import com.fineui.java.binding.HiddenProperty;
 import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
 
-/** 编辑职称（路由 {@code admin/title-edit}，弹窗内打开）：首屏按 {@code ?id} 加载回显，保存时按主键重读后只覆盖表单字段。 */
+/** 编辑职称（路由 {@code admin/title-edit}，弹窗内打开）：首屏按 {@code ?id} 加载回显，保存时只覆盖本次查询实体中的表单字段。 */
 @FineUIPage("admin/title-edit")
 @CheckPower("CoreTitleEdit")
 public class TitleEditModel extends AdminPageBase {
 
-    @HiddenProperty
     private int titleId;
 
     @BindProperty
     private Title title;
+
+    /** 本次按 URL 查询并校验的保存目标；不接受表单或隐藏字段决定主键。 */
+    private Title storedTitle;
 
     public Title getTitle() {
         return title;
@@ -33,12 +33,15 @@ public class TitleEditModel extends AdminPageBase {
         this.titleRepository = titleRepository;
     }
 
-    public void Page_Get(Object sender, EventArgs e) {
+    public void Page_Init(Object sender, EventArgs e) {
         titleId = getQueryInt("id", 0);
-        title = titleRepository.findById(titleId).orElse(null);
-        if (title == null) {
+        storedTitle = titleRepository.findById(titleId).orElse(null);
+        if (storedTitle == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
             return;
+        }
+        if (!isPostBack()) {
+            title = storedTitle;
         }
     }
 
@@ -46,14 +49,9 @@ public class TitleEditModel extends AdminPageBase {
         if (!getModelState().isValid()) {
             return;
         }
-        Title stored = titleRepository.findById(titleId).orElse(null);
-        if (stored == null) {
-            Alert.show("该职称不存在或已被删除！");
-            return;
-        }
-        stored.setName(title.getName());
-        stored.setRemark(title.getRemark());
-        titleRepository.save(stored);
+        storedTitle.setName(title.getName());
+        storedTitle.setRemark(title.getRemark());
+        titleRepository.save(storedTitle);
         ActiveWindow.hidePostBack();
     }
 }

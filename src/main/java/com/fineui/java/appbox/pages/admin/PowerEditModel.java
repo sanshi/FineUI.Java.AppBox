@@ -1,28 +1,28 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
 import com.fineui.java.appbox.model.Power;
 import com.fineui.java.appbox.repository.PowerRepository;
 import com.fineui.java.binding.BindProperty;
-import com.fineui.java.binding.HiddenProperty;
 import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
 import com.fineui.java.core.FineUIPage;
 
-/** 编辑权限（路由 {@code admin/power-edit}，弹窗内打开）：首屏按 {@code ?id} 加载回显，保存时按主键重读后只覆盖表单字段。 */
+/** 编辑权限（路由 {@code admin/power-edit}，弹窗内打开）：首屏按 {@code ?id} 加载回显，保存时只覆盖本次查询实体中的表单字段。 */
 @FineUIPage("admin/power-edit")
 @CheckPower("CorePowerEdit")
 public class PowerEditModel extends AdminPageBase {
 
-    @HiddenProperty
     private int powerId;
 
     @BindProperty
     private Power power;
+
+    /** 本次按 URL 查询并校验的保存目标；不接受表单或隐藏字段决定主键。 */
+    private Power storedPower;
 
     public Power getPower() {
         return power;
@@ -34,12 +34,15 @@ public class PowerEditModel extends AdminPageBase {
         this.powerRepository = powerRepository;
     }
 
-    public void Page_Get(Object sender, EventArgs e) {
+    public void Page_Init(Object sender, EventArgs e) {
         powerId = getQueryInt("id", 0);
-        power = powerRepository.findById(powerId).orElse(null);
-        if (power == null) {
+        storedPower = powerRepository.findById(powerId).orElse(null);
+        if (storedPower == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
             return;
+        }
+        if (!isPostBack()) {
+            power = storedPower;
         }
     }
 
@@ -47,16 +50,11 @@ public class PowerEditModel extends AdminPageBase {
         if (!getModelState().isValid()) {
             return;
         }
-        Power stored = powerRepository.findById(powerId).orElse(null);
-        if (stored == null) {
-            Alert.show("该权限不存在或已被删除！");
-            return;
-        }
-        stored.setGroupName(power.getGroupName());
-        stored.setName(power.getName());
-        stored.setTitle(power.getTitle());
-        stored.setRemark(power.getRemark());
-        powerRepository.save(stored);
+        storedPower.setGroupName(power.getGroupName());
+        storedPower.setName(power.getName());
+        storedPower.setTitle(power.getTitle());
+        storedPower.setRemark(power.getRemark());
+        powerRepository.save(storedPower);
         AuthService.invalidatePermissionCaches();   // 权限按名判定：改名后各会话要重新解析
         ActiveWindow.hidePostBack();
     }

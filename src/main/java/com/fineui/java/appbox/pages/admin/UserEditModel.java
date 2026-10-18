@@ -1,6 +1,5 @@
 package com.fineui.java.appbox.pages.admin;
 
-import com.fineui.java.core.Alert;
 import com.fineui.java.appbox.business.AdminPageBase;
 import com.fineui.java.appbox.business.AuthService;
 import com.fineui.java.appbox.business.CheckPower;
@@ -12,7 +11,6 @@ import com.fineui.java.appbox.repository.RoleRepository;
 import com.fineui.java.appbox.repository.TitleRepository;
 import com.fineui.java.appbox.repository.UserRepository;
 import com.fineui.java.binding.BindProperty;
-import com.fineui.java.binding.HiddenProperty;
 import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
@@ -25,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 编辑用户（路由 {@code admin/user-edit}，弹窗内打开）。首屏按 {@code ?id} 加载实体回显；保存走 read-first：
- * 按主键重读实体、只覆盖表单里出现过的字段（用户名、密码、创建时间等不在表单里的字段保持原值），再更新角色/职称/部门。
+ * 编辑用户（路由 {@code admin/user-edit}，弹窗内打开）。每次按 {@code ?id} 查询并校验实体，首屏填入表单；保存时只覆盖表单里出现过的字段（用户名、密码、创建时间等不在表单里的字段保持原值），再更新角色/职称/部门。
  */
 @FineUIPage("admin/user-edit")
 @CheckPower("CoreUserEdit")
@@ -39,13 +36,15 @@ public class UserEditModel extends AdminPageBase {
     CheckBoxList cblTitles;
     Grid gridDept;
 
-    /** 编辑目标主键：首屏从 ?id 取，之后随状态往返。 */
-    @HiddenProperty
+    /** 编辑目标主键：每次从当前 URL 的 ?id 取。 */
     private int userId;
 
-    /** 表单绑定根：首屏由 Page_Get 加载供回显；回发时是只承载表单值的空壳。 */
+    /** 表单绑定根：首屏由 Page_Init 加载供回显；回发时是只承载表单值的空壳。 */
     @BindProperty
     private User currentUser;
+
+    /** 本次按 URL 查询并校验的保存目标；不接受表单或隐藏字段决定主键。 */
+    private User storedUser;
 
     public User getCurrentUser() {
         return currentUser;
@@ -64,16 +63,19 @@ public class UserEditModel extends AdminPageBase {
         this.deptRepository = deptRepository;
     }
 
-    public void Page_Get(Object sender, EventArgs e) {
+    public void Page_Init(Object sender, EventArgs e) {
         userId = getQueryInt("id", 0);
-        currentUser = userRepository.findById(userId).orElse(null);
-        if (currentUser == null) {
+        storedUser = userRepository.findById(userId).orElse(null);
+        if (storedUser == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
             return;
         }
-        if ("admin".equals(currentUser.getName()) && !"admin".equals(getIdentityName())) {
+        if ("admin".equals(storedUser.getName()) && !"admin".equals(getIdentityName())) {
             PageContext.abortPage("你无权编辑超级管理员！", ActiveWindow.hideCommand());
             return;
+        }
+        if (!isPostBack()) {
+            currentUser = storedUser;
         }
     }
 
@@ -124,16 +126,8 @@ public class UserEditModel extends AdminPageBase {
             return;
         }
 
-        // 主键随状态往返、客户端可篡改：回发路径没有 Page_Get，这里再判一次
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            Alert.show("该用户不存在或已被删除！");
-            return;
-        }
-        if ("admin".equals(user.getName()) && !"admin".equals(getIdentityName())) {
-            Alert.show("你无权编辑超级管理员！");
-            return;
-        }
+        // 保存目标来自本次 Page_Init 的查询和权限校验，不信任表单中的主键。
+        User user = storedUser;
 
         // 只覆盖表单里出现过的字段（这份清单与模板里的 for 保持一致）
         user.setChineseName(currentUser.getChineseName());

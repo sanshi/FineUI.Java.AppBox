@@ -7,7 +7,6 @@ import com.fineui.java.appbox.model.Title;
 import com.fineui.java.appbox.model.User;
 import com.fineui.java.appbox.repository.TitleRepository;
 import com.fineui.java.appbox.repository.UserRepository;
-import com.fineui.java.binding.HiddenProperty;
 import com.fineui.java.core.PageContext;
 import com.fineui.java.core.ActiveWindow;
 import com.fineui.java.core.EventArgs;
@@ -34,7 +33,6 @@ public class TitleUserNewModel extends AdminPageBase {
     TwinTriggerBox ttbSearchMessage;
     DropDownList ddlGridPageSize;
 
-    @HiddenProperty
     private int titleId;
 
     private final TitleRepository titleRepository;
@@ -51,7 +49,7 @@ public class TitleUserNewModel extends AdminPageBase {
         this.userRepository = userRepository;
     }
 
-    public void Page_Get(Object sender, EventArgs e) {
+    public void Page_Init(Object sender, EventArgs e) {
         titleId = getQueryInt("titleID", 0);
         if (!titleRepository.existsById(titleId)) {
             PageContext.abortPage("参数错误！", ActiveWindow.hideCommand());

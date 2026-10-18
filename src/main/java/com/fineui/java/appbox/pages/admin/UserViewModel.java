@@ -26,7 +26,7 @@ public class UserViewModel extends AdminPageBase {
     Label labTitles;
     Label labDept;
 
-    /** 表单回显根：首屏由 Page_Get 加载。 */
+    /** 首屏显示查询到的用户；回发时由框架承载表单数据。 */
     @BindProperty
     private User currentUser;
 
@@ -40,15 +40,18 @@ public class UserViewModel extends AdminPageBase {
         this.userRepository = userRepository;
     }
 
-    public void Page_Get(Object sender, EventArgs e) {
-        currentUser = userRepository.findById(getQueryInt("id", 0)).orElse(null);
-        if (currentUser == null) {
+    public void Page_Init(Object sender, EventArgs e) {
+        User viewedUser = userRepository.findById(getQueryInt("id", 0)).orElse(null);
+        if (viewedUser == null) {
             PageContext.abortPage("无效参数！", ActiveWindow.hideCommand());
             return;
         }
-        if ("admin".equals(currentUser.getName()) && !"admin".equals(getIdentityName())) {
+        if ("admin".equals(viewedUser.getName()) && !"admin".equals(getIdentityName())) {
             PageContext.abortPage("你无权编辑超级管理员！", ActiveWindow.hideCommand());
             return;
+        }
+        if (!isPostBack()) {
+            currentUser = viewedUser;
         }
     }
 
