@@ -64,7 +64,7 @@ public class RolePowerModel extends AdminPageBase {
                 Alert.show("请先添加角色！");
                 return;
             }
-            Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });
+            Grid1.setSelectedRowIDArray(new String[] { String.valueOf(list.get(0).getId()) });
             loadGrid2Data();
         }
     }
@@ -116,14 +116,14 @@ public class RolePowerModel extends AdminPageBase {
     }
 
     private Integer selectedRoleId() {
-        String selected = Grid1.getSelectedRowId();
+        String selected = Grid1.getSelectedRowID();
         return intOrNull(selected);
     }
 
     public void Grid1_Sort(Object sender, EventArgs e) {
         List<Role> list = loadGrid1Data();
         if (!list.isEmpty()) {
-            Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });
+            Grid1.setSelectedRowIDArray(new String[] { String.valueOf(list.get(0).getId()) });
         }
         loadGrid2Data();
     }

@@ -70,7 +70,7 @@ public class DeptUserModel extends AdminPageBase {
                 Alert.show("请先添加部门！");
                 return;
             }
-            Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });
+            Grid1.setSelectedRowIDArray(new String[] { String.valueOf(list.get(0).getId()) });
 
             ddlGridPageSize.setSelectedValue(String.valueOf(configService.getPageSize()));
             Grid2.setPageSize(configService.getPageSize());
@@ -113,7 +113,7 @@ public class DeptUserModel extends AdminPageBase {
     }
 
     private Integer selectedDeptId() {
-        String selected = Grid1.getSelectedRowId();
+        String selected = Grid1.getSelectedRowID();
         return intOrNull(selected);
     }
 

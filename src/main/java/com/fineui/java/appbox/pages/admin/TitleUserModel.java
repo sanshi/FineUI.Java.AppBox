@@ -70,7 +70,7 @@ public class TitleUserModel extends AdminPageBase {
                 Alert.show("请先添加职称！");
                 return;
             }
-            Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });
+            Grid1.setSelectedRowIDArray(new String[] { String.valueOf(list.get(0).getId()) });
 
             ddlGridPageSize.setSelectedValue(String.valueOf(configService.getPageSize()));
             Grid2.setPageSize(configService.getPageSize());
@@ -114,14 +114,14 @@ public class TitleUserModel extends AdminPageBase {
     }
 
     private Integer selectedTitleId() {
-        String selected = Grid1.getSelectedRowId();
+        String selected = Grid1.getSelectedRowID();
         return intOrNull(selected);
     }
 
     public void Grid1_Sort(Object sender, EventArgs e) {
         List<Title> list = loadGrid1Data();
         if (!list.isEmpty()) {
-            Grid1.setSelectedRowIdArray(new String[] { String.valueOf(list.get(0).getId()) });
+            Grid1.setSelectedRowIDArray(new String[] { String.valueOf(list.get(0).getId()) });
         }
         loadGrid2Data();
     }

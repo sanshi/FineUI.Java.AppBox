@@ -85,7 +85,7 @@ public class DeptUserNewModel extends AdminPageBase {
     }
 
     public void btnSaveClose_Click(Object sender, EventArgs e) {
-        String[] selectedRowIds = Grid1.getSelectedRowIdArray();
+        String[] selectedRowIds = Grid1.getSelectedRowIDArray();
         if (selectedRowIds == null || selectedRowIds.length == 0) {
             Alert.show("请至少选择一项！");
             return;
